@@ -6,7 +6,7 @@ dnf update --assumeyes &&
     run \
     --interactive \
     --rm \
-    --volume ocr-gpg-private-key.sh:/root/bin/ocr-gpg-private-key.sh:ro \
+    --volume create_dot_gnupg_volume.sh:/root/bin/create_dot_gnupg_volume.sh:ro \
     --volume /vagrant/secret.key:/root/secret.key:ro \
     --volume /vagrant/ownertrust:/root/ownertrust:ro \
     --volume ${DOT_GNUPG}:/root/.ssh \
