@@ -8,7 +8,7 @@ dnf update --assumeyes &&
     --rm \
     --volume /vagrant/create_dot_gnupg_volume.sh:/root/bin/create_dot_gnupg_volume.sh:ro \
     --volume /vagrant/secret.key:/root/secret.key:ro \
-    --volume /vagrant/ownertrust:/root/ownertrust:ro \
+    --volume /vagrant/owner.trust:/root/owner.trust:ro \
     --volume ${DOT_GNUPG}:/root/.ssh \
     --workdir /root \
     fedora:25 \
