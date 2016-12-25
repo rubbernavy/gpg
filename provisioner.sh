@@ -5,7 +5,6 @@ dnf update --assumeyes &&
   docker \
     run \
     --interactive \
-    --tty \
     --rm \
     --volume ocr-gpg-private-key.sh:/root/bin/ocr-gpg-private-key.sh:ro \
     --volume /vagrant/secret.key:/root/secret.key:ro \
