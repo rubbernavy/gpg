@@ -8,7 +8,7 @@ DOT_GNUPG=$(docker volume create --name dot_gnupg) &&
     --detach \
     --volume ${DOT_GNUPG}:/root/.gnupg \
     --volume /vagrant:/usr/local/src:ro \
-    emorymerryman/gpg \
+    emorymerryman/gpg:0.0.0 \
     --import /usr/local/src/public.gpg.key &&
   docker \
     run \
@@ -17,7 +17,7 @@ DOT_GNUPG=$(docker volume create --name dot_gnupg) &&
     --detach \
     --volume ${DOT_GNUPG}:/root/.gnupg \
     --volume /vagrant:/usr/local/src:ro \
-    emorymerryman/gpg \
+    emorymerryman/gpg:0.0.0 \
     --import /usr/local/src/private.gpg.key &&
     docker \
       run \
@@ -26,6 +26,6 @@ DOT_GNUPG=$(docker volume create --name dot_gnupg) &&
       --detach \
       --volume ${DOT_GNUPG}:/root/.gnupg \
       --volume /vagrant:/usr/local/src:ro \
-      emorymerryman/gpg \
+      emorymerryman/gpg:0.0.0 \
       --import-ownertrust /usr/local/src/ownertrust.gpg.key &&
     true
