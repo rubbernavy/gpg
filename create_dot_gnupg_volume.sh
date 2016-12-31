@@ -1,11 +1,31 @@
 #!/bin/sh
 
-dnf update --assumeyes &&
-  dnf install --assumeyes gnupg gnupg2 &&
-  gpg --import /root/public.key &&
-  gpg2 --import /root/public.key &&
-  gpg --import /root/private.key &&
-  gpg2 --import /root/private.key &&
-  gpg --import-ownertrust /root/owner.trust &&
-  gpg2 --import-ownertrust /root/owner.trust &&
-  true
+DOT_GNUPG=$(docker volume create --name dot_gnupg) &&
+  docker \
+    run \
+    --interactive \
+    --tty \
+    --detach \
+    --volume ${DOT_GNUPG}:/root/.gnupg \
+    --volume /vagrant:/usr/local/src:ro \
+    emorymerryman/gpg \
+    --import /usr/local/src/public.gpg.key &&
+  docker \
+    run \
+    --interactive \
+    --tty \
+    --detach \
+    --volume ${DOT_GNUPG}:/root/.gnupg \
+    --volume /vagrant:/usr/local/src:ro \
+    emorymerryman/gpg \
+    --import /usr/local/src/private.gpg.key &&
+    docker \
+      run \
+      --interactive \
+      --tty \
+      --detach \
+      --volume ${DOT_GNUPG}:/root/.gnupg \
+      --volume /vagrant:/usr/local/src:ro \
+      emorymerryman/gpg \
+      --import-ownertrust /usr/local/src/ownertrust.gpg.key &&
+    true
