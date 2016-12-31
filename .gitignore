@@ -1,3 +1,6 @@
-public.key
-private.key
-owner.trust
+ownertrust.gpg2.key
+ownertrust.gpg.key
+public.gpg.key
+public.gpg2.key
+private.gpg.key
+private.gpg2.key
