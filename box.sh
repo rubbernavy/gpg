@@ -17,4 +17,5 @@ COMMIT_ID=$(git rev-parse --verify HEAD) &&
   vagrant box add --name gpg.${COMMIT_ID} ${WORK_DIR}/gpg.${COMMIT_ID}.box &&
   vagrant halt &&
   rm -rf ${WORK_DIR} &&
+  vagrant destroy -f &&
   true
