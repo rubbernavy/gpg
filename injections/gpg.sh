@@ -4,7 +4,7 @@ docker \
   run \
   --interactive \
   --rm \
-  --volume ${DOT_GNUPG}:/root/.gnupg \
+  --volume ${DOT_GNUPG}:/home/user/.gnupg \
   --volume ${SRC_DIR}:/usr/local/src \
   --workdir /usr/local/src \
   --user user \

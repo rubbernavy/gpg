@@ -67,9 +67,13 @@ inject(){
       /usr/bin/sh --login /vagrant/injections/gpg.sh ${@} &&
       true
   } &&
-  gpg --import public.gpg.key &&
-  gpg --import private.gpg.key &&
-  gpg --import-ownertrust ownertrust.gpg.key &&
+  echo A &&
+  gpg --import --no-tty public.gpg.key &&
+  echo B &&
+  gpg --import --no-tty private.gpg.key &&
+  echo C &&
+  gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
+  echo D &&
   docker pull emorymerryman/git:0.0.1 &&
   docker pull emorymerryman/pass:0.5.0 &&
   docker pull emorymerryman/ssh:0.0.1 &&
