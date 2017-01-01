@@ -17,7 +17,6 @@ inject(){
       /vagrant/injections/${PROGRAM}.sh | docker \
       run \
       --interactive \
-      --tty \
       --rm \
       --volume ${ROOT_BIN}:/root/bin \
       alpine:3.4 \
@@ -25,14 +24,12 @@ inject(){
     docker \
       run \
       --interactive \
-      --tty \
       --rm \
       alpine:3.4 \
       chmod 0500 /root/bin/${PROGRAM} &&
     docker \
       run \
       --interactive \
-      --tty \
       --rm \
       --volume ${USR_BIN_DIR}:/usr/local/bin:ro \
       alpine:3.4 \
@@ -42,7 +39,6 @@ inject(){
         docker \
           run \
           --interactive \
-          --tty \
           --rm \
           --volume ${SUDO_DIR}:/etc/sudoers.d \
           alpine:3.4 \
