@@ -56,14 +56,15 @@ inject(){
   PASS_BIN_DIR=$(docker volume create) &&
   PASS_SUDO_DIR=$(docker volume create) &&
   inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
+  exit 64 &&
   inject gpg2 ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
-  gpg(){
+    gpg(){
     export SRC_DIR=/vagrant &&
       export DOT_GNUPG=${DOT_GNUPG} &&
-      /usr/bin/bash /vagrant/injections/gpg.sh ${@} &&
+      /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
       true
   } &&
   gpg --import public.gpg.key &&
@@ -72,7 +73,7 @@ inject(){
   gpg2(){
     export SRC_DIR=/vagrant &&
       export DOT_GNUPG=${DOT_GNUPG} &&
-      /usr/bin/bash /vagrant/injections/gpg2.sh ${@} &&
+      /usr/bin/sh /vagrant/injections/gpg2.sh ${@} &&
       true
   } &&
   gpg2 --import public.gpg2.key &&
