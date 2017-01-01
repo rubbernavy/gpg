@@ -67,6 +67,13 @@ inject(){
       /usr/bin/sh --login /vagrant/injections/gpg.sh ${@} &&
       true
   } &&
+  docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${DOT_GNUPG}:/usr/local/src \
+    emorymerryman/base:0.0.4 \
+    chown user:user /usr/local/src &&
   echo A &&
   gpg --import --no-tty public.gpg.key &&
   echo B &&
