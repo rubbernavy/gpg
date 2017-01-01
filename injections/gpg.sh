@@ -1,6 +1,5 @@
 #!/bin/sh
 
-echo DOT_GNUPG=${DOT_GNUPG} &&
 docker \
   run \
   --interactive \
