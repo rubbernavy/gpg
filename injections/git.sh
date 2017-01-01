@@ -3,6 +3,7 @@
 docker \
   run \
   --interactive \
+  --tty \
   --rm \
   --volume /var/run/docker.sock:/var/run/docker.sock:ro \
   --volume ${USR_BIN_DIR}:/usr/local/bin:ro \
