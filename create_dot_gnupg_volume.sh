@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "XxXXXXXXX 2000" &&
 inject(){
   PROGRAM=${1} &&
     ROOT_BIN_DIR=${2} &&
@@ -50,14 +51,28 @@ inject(){
       done &&
     true
 } &&
+  echo "XxXXXXXXX 2010" &&
+  echo "XxXXXXXXX 2011" &&
+  echo "XxXXXXXXX 2012" &&
+  echo "XxXXXXXXX 2013" &&
   PASS_STORE=$(docker volume create) &&
+  echo "XxXXXXXXX 2020" &&
   BIN=$(docker volume create --name bin) &&
+  echo "XxXXXXXXX 2030" &&
   export DOT_GNUPG=$(docker volume create) &&
+  echo "XxXXXXXXX 2040" &&
   export DOT_SSH=$(docker volume create) &&
+  echo "XxXXXXXXX 2050" &&
   GIT_BIN_DIR=$(docker volume create) &&
+  echo "XxXXXXXXX 2060" &&
   GIT_SUDO_DIR=$(docker volume create) &&
+  echo "XxXXXXXXX 2070" &&
   PASS_BIN_DIR=$(docker volume create) &&
+  echo "XxXXXXXXX 2080" &&
   PASS_SUDO_DIR=$(docker volume create) &&
+  echo "XxXXXXXXX 3000" &&
+  exit 64 &&
+  echo "XxXXXXXXX 4000" &&
   inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
