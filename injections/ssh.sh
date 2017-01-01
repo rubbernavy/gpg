@@ -3,7 +3,6 @@
 docker \
   run \
   --interactive \
-  --tty \
   --rm \
   --volume ${DOT_SSH}:/root/.ssh:ro \
   --volumw ${SRC_DIR}:/usr/local/src \
