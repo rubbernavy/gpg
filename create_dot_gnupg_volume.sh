@@ -25,6 +25,7 @@ inject(){
       run \
       --interactive \
       --rm \
+      --volume ${ROOT_BIN_DIR}:/root/bin \
       alpine:3.4 \
       chmod 0500 /root/bin/${PROGRAM} &&
     docker \
