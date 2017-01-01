@@ -81,14 +81,20 @@ inject(){
     --volume ${DOT_GNUPG}:/usr/local/src \
     emorymerryman/base:0.0.6 \
     tee -a /usr/local/src/gpg-agent.conf &&
-  echo A &&
   gpg --import --no-tty public.gpg.key &&
-  echo B &&
   gpg --import --batch --no-tty private.gpg.key &&
-  echo C &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
-  echo D &&
   docker pull emorymerryman/git:0.0.1 &&
   docker pull emorymerryman/pass:0.5.1 &&
   docker pull emorymerryman/ssh:0.0.1 &&
+  mkdir /home/vagrant/bin &&
+  sed \
+    -e "s#\${USR_BIN_DIR}#${PASS_BIN_DIR}#" \
+    -e "s#\${SUDO_DIR}#${PASS_SUDO_DIR}#" \
+    -e "s#\${DOT_SSH}#${DOT_SSH}#" \
+    -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+    -e "w/usr/local/bin/pass" \
+    /vagrant/injections/pass.sh &&
+  chmod 0500 /usr/local/bin/pass &&
+  chmod a+rx /usr/local/bin/pass &
   true
