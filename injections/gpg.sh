@@ -5,6 +5,7 @@ docker \
   run \
   --interactive \
   --rm \
+  --tty \
   --volume ${DOT_GNUPG}:/root/.gnupg \
   --volume ${SRC_DIR}:/usr/local/src \
   --workdir /usr/local/src \

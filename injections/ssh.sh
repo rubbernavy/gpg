@@ -9,6 +9,6 @@ docker \
   --volumw ${SRC_DIR}:/usr/local/src \
   --workdir /usr/local/src \
   --user user \
-  emorymerryman/ssh:0.0.0 \
+  emorymerryman/ssh:0.0.1 \
   ${@} &&
   true

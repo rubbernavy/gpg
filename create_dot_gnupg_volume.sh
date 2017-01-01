@@ -94,7 +94,7 @@ inject(){
   gpg2 --import public.gpg2.key &&
   gpg2 --import private.gpg2.key &&
   gpg2 --import-ownertrust ownertrust.gpg2.key &&
-  docker pull emorymerryman/git:0.0.0 &&
+  docker pull emorymerryman/git:0.0.1 &&
   docker pull emorymerryman/pass:0.0.0 &&
-  docker pull emorymerryman/ssh:0.0.0 &&
+  docker pull emorymerryman/ssh:0.0.1 &&
   true
