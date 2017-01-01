@@ -84,7 +84,7 @@ inject(){
   echo A &&
   gpg --import --no-tty public.gpg.key &&
   echo B &&
-  gpg --import --no-tty private.gpg.key &&
+  gpg --import --batch --no-tty private.gpg.key &&
   echo C &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   echo D &&
