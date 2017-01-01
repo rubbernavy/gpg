@@ -11,10 +11,9 @@ inject(){
     docker \
       run \
       --interactive \
-      --tty \
       --rm \
       --volume ${ROOT_BIN_DIR}:/root/bin \
-      --volume /vagrant:/usr/local/src:ro \
+      --volume /vagrant/injections:/usr/local/src:ro \
       alpine:3.4 \
       sed \
         -e "s#\${SRC_DIR}#${SRC_DIR}#" \
