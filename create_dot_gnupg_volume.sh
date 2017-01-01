@@ -8,6 +8,7 @@ inject(){
     SUDO_DIR=${5} &&
     DOT_SSH=${6} &&
     DOT_GNUPG=${7} &&
+    exit 64 &&
     sed \
       -e "s#\${SRC_DIR}#${SRC_DIR}#" \
       -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
