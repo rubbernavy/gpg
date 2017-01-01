@@ -51,7 +51,7 @@ inject(){
 } &&
   PASS_STORE=$(docker volume create) &&
   BIN=$(docker volume create --name bin) &&
-  DOT_GNUPG=$(docker volume create) &&
+  export DOT_GNUPG=$(docker volume create) &&
   GIT_BIN_DIR=$(docker volume create) &&
   GIT_SUDO_DIR=$(docker volume create) &&
   PASS_BIN_DIR=$(docker volume create) &&
