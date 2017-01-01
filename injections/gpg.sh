@@ -3,7 +3,6 @@
 docker \
   run \
   --interactive \
-  --tty \
   --rm \
   --volume ${DOT_GNUPG}:/root/.gnupg \
   --volume ${SRC_DIR}:/usr/local/src \
