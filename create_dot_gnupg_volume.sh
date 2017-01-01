@@ -63,7 +63,7 @@ inject(){
   gpg(){
     export SRC_DIR=/vagrant &&
       export DOT_GNUPG=${DOT_GNUPG} &&
-      /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
+      /usr/bin/bash /vagrant/injections/gpg.sh ${@} &&
       true
   } &&
   gpg --import public.gpg.key &&
@@ -72,11 +72,13 @@ inject(){
   gpg2(){
     export SRC_DIR=/vagrant &&
       export DOT_GNUPG=${DOT_GNUPG} &&
-      /usr/bin/sh /vagrant/injections/gpg2.sh ${@} &&
+      /usr/bin/bash /vagrant/injections/gpg2.sh ${@} &&
       true
   } &&
   gpg2 --import public.gpg2.key &&
   gpg2 --import private.gpg2.key &&
   gpg2 --import-ownertrust ownertrust.gpg2.key &&
-
+  docker pull emorymerryman/git:0.0.0 &&
+  docker pull emorymerryman/pass:0.0.0 &&
+  docker pull emorymerryman/ssh:0.0.0 &&
   true
