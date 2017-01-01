@@ -18,7 +18,7 @@ inject(){
       run \
       --interactive \
       --rm \
-      --volume ${ROOT_BIN}:/root/bin \
+      --volume ${ROOT_BIN_DIR}:/root/bin \
       alpine:3.4 \
       tee /root/bin/${PROGRAM} &&
     docker \
