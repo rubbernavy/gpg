@@ -18,6 +18,7 @@ inject(){
       run \
       --interactive \
       --rm \
+      --tty \
       --volume ${ROOT_BIN_DIR}:/root/bin \
       alpine:3.4 \
       tee /root/bin/${PROGRAM} &&
