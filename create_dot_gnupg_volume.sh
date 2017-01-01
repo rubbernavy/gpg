@@ -14,7 +14,7 @@ inject(){
       --rm \
       --volume ${ROOT_BIN_DIR}:/root/bin \
       --volume /vagrant/injections:/usr/local/src:ro \
-      alpine:3.4 \
+      emorymerryman/base:0.0.5 \
       sed \
         -e "s#\${SRC_DIR}#${SRC_DIR}#" \
         -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
@@ -28,14 +28,14 @@ inject(){
       --interactive \
       --rm \
       --volume ${ROOT_BIN_DIR}:/root/bin \
-      alpine:3.4 \
+      emorymerryman/base:0.0.5 \
       chmod 0500 /root/bin/${PROGRAM} &&
     docker \
       run \
       --interactive \
       --rm \
       --volume ${USR_BIN_DIR}:/usr/local/bin:ro \
-      alpine:3.4 \
+      emorymerryman/base:0.0.5 \
       ls -1 /usr/local/bin | while read PRG
       do
         echo user ALL = NOPASSWD: /usr/local/bin/${PRG} |
@@ -44,7 +44,7 @@ inject(){
           --interactive \
           --rm \
           --volume ${SUDO_DIR}:/etc/sudoers.d \
-          alpine:3.4 \
+          emorymerryman/base:0.0.5 \
           tee /etc/sudoers.d/${PRG} &&
         true
       done &&
@@ -72,7 +72,7 @@ inject(){
     --interactive \
     --rm \
     --volume ${DOT_GNUPG}:/usr/local/src \
-    emorymerryman/base:0.0.4 \
+    emorymerryman/base:0.0.5 \
     chown user:user /usr/local/src &&
   echo A &&
   gpg --import --no-tty public.gpg.key &&
