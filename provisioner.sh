@@ -1,4 +1,4 @@
 #!/bin/sh
 
-/bin/sh --login /vagrant/create_dot_gnupg_volume.sh &&
+/bin/sh /vagrant/create_dot_gnupg_volume.sh &&
   true
