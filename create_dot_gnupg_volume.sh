@@ -36,7 +36,7 @@ inject(){
       alpine:3.4 \
       ls -1 /usr/local/bin | while read PRG
       do
-        echo user ALL = NOPASSWD: /usr/local/${PRG} |
+        echo user ALL = NOPASSWD: /usr/local/bin/${PRG} |
         docker \
           run \
           --interactive \
