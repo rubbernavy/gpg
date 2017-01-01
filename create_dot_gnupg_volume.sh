@@ -8,7 +8,7 @@ inject(){
     SUDO_DIR=${5} &&
     DOT_SSH=${6} &&
     DOT_GNUPG=${7} &&
-    exit 64 &&
+    echo ALPHA &&
     sed \
       -e "s#\${SRC_DIR}#${SRC_DIR}#" \
       -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
@@ -22,6 +22,7 @@ inject(){
       --volume ${ROOT_BIN_DIR}:/root/bin \
       alpine:3.4 \
       tee /root/bin/${PROGRAM} &&
+    echo BETA &&
     docker \
       run \
       --interactive \
@@ -29,6 +30,7 @@ inject(){
       --volume ${ROOT_BIN_DIR}:/root/bin \
       alpine:3.4 \
       chmod 0500 /root/bin/${PROGRAM} &&
+    echo GAMMA &&
     docker \
       run \
       --interactive \
@@ -46,8 +48,9 @@ inject(){
           alpine:3.4 \
           tess /etc/sudoers.d/${PRG} &&
         true
-      done
-  true
+      done &&
+    echo DELTA &&
+    true
 } &&
   PASS_STORE=$(docker volume create) &&
   BIN=$(docker volume create --name bin) &&
