@@ -74,6 +74,13 @@ inject(){
     --volume ${DOT_GNUPG}:/usr/local/src \
     emorymerryman/base:0.0.6 \
     chown user:user /usr/local/src &&
+  echo allow-loopback-pinentry | docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${DOT_GNUPG}:/usr/local/src \
+    emorymerryman/base:0.0.6 \
+    tee --append /usr/local/src/gpg-agent.conf
   echo A &&
   gpg --import --no-tty public.gpg.key &&
   echo B &&
