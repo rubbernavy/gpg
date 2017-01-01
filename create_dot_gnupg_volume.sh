@@ -1,13 +1,17 @@
 #!/bin/sh
 
 inject(){
+  echo ${@} &&
   PROGRAM=${1} &&
     ROOT_BIN_DIR=${2} &&
     SRC_DIR=${3} &&
     USR_BIN_DIR=${4} &&
     SUDO_DIR=${5} &&
     DOT_SSH=${6} &&
+    echo DOT_GNUPG=${DOT_GNUPG} &&
+    echo 1=${1} ... 2=${2} ... 3=${3} ... 4=${4} ... 5=${5} ... 6=${6} ... 7=${7} &&
     DOT_GNUPG=${7} &&
+    echo DOT_GNUPG=${DOT_GNUPG} &&
     sed \
       -e "s#\${SRC_DIR}#${SRC_DIR}#" \
       -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
@@ -52,21 +56,32 @@ inject(){
   PASS_STORE=$(docker volume create) &&
   BIN=$(docker volume create --name bin) &&
   export DOT_GNUPG=$(docker volume create) &&
+  export DOT_SSH=$(docker volume create) &&
+  echo A && [ ! -z "${DOT_GNUPG}" ] && echo ${DOT_GNUPG} &&
   GIT_BIN_DIR=$(docker volume create) &&
+  echo B && [ ! -z "${DOT_GNUPG}" ] && echo ${DOT_GNUPG} &&
   GIT_SUDO_DIR=$(docker volume create) &&
+  echo C && [ ! -z "${DOT_GNUPG}" ] && echo ${DOT_GNUPG} &&
   PASS_BIN_DIR=$(docker volume create) &&
+  echo D && [ ! -z "${DOT_GNUPG}" ] && echo ${DOT_GNUPG} &&
   PASS_SUDO_DIR=$(docker volume create) &&
+  echo E && [ ! -z "${DOT_GNUPG}" ] && echo ${DOT_GNUPG} &&
+  echo PASS_STORE=${PASS_STORE} &&
+  echo DOT_SSH=${DOT_SSH} &&
   inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
+  echo F && [ ! -z "${DOT_GNUPG}" ] && echo ${DOT_GNUPG} &&
   inject gpg2 ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
+  echo G && [ ! -z "${DOT_GNUPG}" ] && echo ${DOT_GNUPG} &&
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
-    gpg(){
+  gpg(){
     export SRC_DIR=/vagrant &&
-      export DOT_GNUPG=${DOT_GNUPG} &&
+      echo DOT_GNUPG=${DOT_GNUPG} &&
       /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
       true
   } &&
+  echo DOT_GNUPG=${DOT_GNUPG} &&
   gpg --import public.gpg.key &&
   gpg --import private.gpg.key &&
   gpg --import-ownertrust ownertrust.gpg.key &&
