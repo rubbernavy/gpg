@@ -8,25 +8,27 @@ inject(){
     SUDO_DIR=${5} &&
     DOT_SSH=${6} &&
     DOT_GNUPG=${7} &&
-    echo OMEGA i &&
-    docker run -i --rm alpine:3.4 echo bullshit &&
-    echo OMEGA t &&
-    docker run -t --rm alpine:3.4 echo bullshit &&
-    echo ALPHA &&
     sed \
       -e "s#\${SRC_DIR}#${SRC_DIR}#" \
       -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
       -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
       -e "s#\${DOT_SSH}#${DOT_SSH}#" \
       -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-      /vagrant/injections/${PROGRAM}.sh | docker \
+      /vagrant/injections/${PROGRAM}.sh | tee ${PROGRAM}.bs &&
+    sed \
+      -e "s#\${SRC_DIR}#${SRC_DIR}#" \
+      -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
+      -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
+      -e "s#\${DOT_SSH}#${DOT_SSH}#" \
+      -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+      /vagrant/injections/${PROGRAM}.sh | docker
       run \
+      --interactive \
       --tty \
       --rm \
       --volume ${ROOT_BIN_DIR}:/root/bin \
       alpine:3.4 \
       tee /root/bin/${PROGRAM} &&
-    echo BETA &&
     docker \
       run \
       --interactive \
