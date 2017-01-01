@@ -64,7 +64,7 @@ inject(){
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
   gpg(){
     export SRC_DIR=/vagrant &&
-      /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
+      /usr/bin/sh --login /vagrant/injections/gpg.sh ${@} &&
       true
   } &&
   gpg --import public.gpg.key &&
