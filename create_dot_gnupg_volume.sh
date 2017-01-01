@@ -8,27 +8,22 @@ inject(){
     SUDO_DIR=${5} &&
     DOT_SSH=${6} &&
     DOT_GNUPG=${7} &&
-    sed \
-      -e "s#\${SRC_DIR}#${SRC_DIR}#" \
-      -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
-      -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
-      -e "s#\${DOT_SSH}#${DOT_SSH}#" \
-      -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-      /vagrant/injections/${PROGRAM}.sh | tee ${PROGRAM}.bs &&
-    sed \
-      -e "s#\${SRC_DIR}#${SRC_DIR}#" \
-      -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
-      -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
-      -e "s#\${DOT_SSH}#${DOT_SSH}#" \
-      -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-      /vagrant/injections/${PROGRAM}.sh | docker
+    docker \
       run \
       --interactive \
       --tty \
       --rm \
       --volume ${ROOT_BIN_DIR}:/root/bin \
+      --volume /vagrant:/usr/local/src:ro \
       alpine:3.4 \
-      tee /root/bin/${PROGRAM} &&
+      sed \
+        -e "s#\${SRC_DIR}#${SRC_DIR}#" \
+        -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
+        -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
+        -e "s#\${DOT_SSH}#${DOT_SSH}#" \
+        -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+        -e "w/root/bin/${PROGRAM}" \
+        /usr/local/src/${PROGRAM}.sh &&
     docker \
       run \
       --interactive \
