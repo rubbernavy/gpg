@@ -48,6 +48,7 @@ inject(){
           alpine:3.4 \
           tess /etc/sudoers.d/${PRG} &&
         true
+      done
   true
 } &&
   PASS_STORE=$(docker volume create) &&
