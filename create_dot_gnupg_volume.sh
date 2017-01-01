@@ -27,7 +27,6 @@ inject(){
       run \
       --interactive \
       --rm \
-      --tty \
       --volume ${ROOT_BIN_DIR}:/root/bin \
       alpine:3.4 \
       chmod 0500 /root/bin/${PROGRAM} &&
@@ -35,7 +34,6 @@ inject(){
       run \
       --interactive \
       --rm \
-      --tty \
       --volume ${USR_BIN_DIR}:/usr/local/bin:ro \
       alpine:3.4 \
       ls -1 /usr/local/bin | while read PRG
@@ -45,7 +43,6 @@ inject(){
           run \
           --interactive \
           --rm \
-          --tty \
           --volume ${SUDO_DIR}:/etc/sudoers.d \
           alpine:3.4 \
           tee /etc/sudoers.d/${PRG} &&
