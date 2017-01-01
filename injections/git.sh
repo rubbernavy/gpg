@@ -11,6 +11,6 @@ docker \
   --volume ${SUDO_DIR}:/etc/sudoers.d:ro \
   --workdir /usr/local/src \
   --user user \
-  emorymerryman/ssh:0.0.0 \
+  emorymerryman/git:0.0.1 \
   ${@} &&
   true
