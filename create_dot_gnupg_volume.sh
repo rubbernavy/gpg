@@ -71,7 +71,6 @@ inject(){
   echo "XxXXXXXXX 2080" &&
   PASS_SUDO_DIR=$(docker volume create) &&
   echo "XxXXXXXXX 3000" &&
-  exit 64 &&
   echo "XxXXXXXXX 4000" &&
   inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
