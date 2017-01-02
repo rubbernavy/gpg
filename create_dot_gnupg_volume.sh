@@ -124,6 +124,7 @@ inject(){
     -e "s#\${SUDO_DIR}#${PASS_SUDO_DIR}#" \
     -e "s#\${DOT_SSH}#${DOT_SSH}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+    -e "s#\${SRC_DIR}#${DOT_GNUPG}#" \
     -e "s#\${PASS_STORE}#${PASS_STORE}#" \
     -e "w/usr/local/bin/gpg" \
     /vagrant/injections/gpg.sh &&
