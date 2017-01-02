@@ -124,6 +124,8 @@ inject(){
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
+  pass init D65D3F8C &&
+  pass git init &&
   docker \
     run \
     --interactive \
