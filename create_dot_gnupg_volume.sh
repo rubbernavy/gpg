@@ -53,27 +53,14 @@ inject(){
       done &&
     true
 } &&
-  echo "XxXXXXXXX 2010" &&
-  echo "XxXXXXXXX 2011" &&
-  echo "XxXXXXXXX 2012" &&
-  echo "XxXXXXXXX 2013" &&
   PASS_STORE=$(docker volume create) &&
-  echo "XxXXXXXXX 2020" &&
   BIN=$(docker volume create --name bin) &&
-  echo "XxXXXXXXX 2030" &&
   export DOT_GNUPG=$(docker volume create) &&
-  echo "XxXXXXXXX 2040" &&
   export DOT_SSH=$(docker volume create) &&
-  echo "XxXXXXXXX 2050" &&
   GIT_BIN_DIR=$(docker volume create) &&
-  echo "XxXXXXXXX 2060" &&
   GIT_SUDO_DIR=$(docker volume create) &&
-  echo "XxXXXXXXX 2070" &&
   PASS_BIN_DIR=$(docker volume create) &&
-  echo "XxXXXXXXX 2080" &&
   PASS_SUDO_DIR=$(docker volume create) &&
-  echo "XxXXXXXXX 3000" &&
-  echo "XxXXXXXXX 4000" &&
   docker \
     run \
     --interactive \
@@ -125,7 +112,17 @@ inject(){
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
-  pass git init &&
+  (
+    pass git init || (
+      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src --user user ls -alh . &&
+      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src/.git --user user ls -alh . &&
+      exit 64 &&
+        true
+    )
+  ) &&
+  pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
+  pass git fetch origin master &&
+  pass git checkout origin/master &&
   docker \
     run \
     --interactive \
@@ -154,5 +151,5 @@ inject(){
     -e "s#\${PASS_STORE}#${PASS_STORE}#" \
     -e "w/usr/local/bin/gpg" \
     /vagrant/injections/gpg.sh &&
-    chmod 0555 /usr/local/bin/gpg &&
+  chmod 0555 /usr/local/bin/gpg &&
   true
