@@ -111,5 +111,5 @@ inject(){
     -e "w/usr/local/bin/pass" \
     /vagrant/injections/pass.sh &&
   chmod 0500 /usr/local/bin/pass &&
-  chmod a+rx /usr/local/bin/pass &
+  chmod a+rx /usr/local/bin/pass &&
   true
