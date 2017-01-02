@@ -123,6 +123,7 @@ inject(){
   gpg --import --no-tty public.gpg.key &&
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
+  gpg --list-keys &&
   docker \
     run \
     --interactive \
