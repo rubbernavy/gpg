@@ -76,7 +76,7 @@ inject(){
     export USR_BIN_DIR=${GIT_BIN_DIR} &&
       export SUDO_DIR=${GIT_SUDO_DIR} &&
       export SRC_DIR=${PASS_STORE} &&
-      /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
+      /usr/bin/sh /vagrant/injections/git.sh ${@} &&
       true
   } &&
   gpg(){
