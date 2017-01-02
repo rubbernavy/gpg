@@ -76,6 +76,7 @@ volume(){
   PASS_SUDO_DIR=$(volume) &&
   gpg(){
     export SRC_DIR=/vagrant &&
+      export DOT_GNUPG=${DOT_GNUPG} &&
       /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
       true
   } &&
@@ -91,8 +92,6 @@ volume(){
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
 
-  echo BEFORE &&
-    echo DOT_GNUPG=${DOT_GNUPG} &&
     echo allow-loopback-pinentry | docker \
       run \
       --interactive \
@@ -101,8 +100,6 @@ volume(){
       --user user \
       emorymerryman/base:0.0.6 \
       tee -a /usr/local/src/gpg-agent.conf &&
-
-          echo WTF &&
   gpg --import --no-tty public.gpg.key &&
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
