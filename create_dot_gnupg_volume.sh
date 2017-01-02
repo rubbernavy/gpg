@@ -80,8 +80,14 @@ inject(){
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   gpg(){
     export SRC_DIR=/vagrant &&
-      /usr/bin/sh --login /vagrant/injections/gpg.sh ${@} &&
+      /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
       true
+  } &&
+  pass(){
+    export USR_BIN_DIR=${PASS_BIN_DIR} &&
+      export SUDO_DIR=${PASS_SUDO_DIR} &&
+      export PASS_STORE=${PASS_STORE} &&
+      /usr/bin/sh /vagrant/injections/pass.sh ${@} &&
   } &&
   docker \
     run \
@@ -103,7 +109,6 @@ inject(){
   docker pull emorymerryman/git:0.0.1 &&
   docker pull emorymerryman/pass:0.6.0 &&
   docker pull emorymerryman/ssh:0.0.1 &&
-  mkdir /home/vagrant/bin &&
   sed \
     -e "s#\${USR_BIN_DIR}#${PASS_BIN_DIR}#" \
     -e "s#\${SUDO_DIR}#${PASS_SUDO_DIR}#" \
@@ -112,6 +117,14 @@ inject(){
     -e "s#\${PASS_STORE}#${PASS_STORE}#" \
     -e "w/usr/local/bin/pass" \
     /vagrant/injections/pass.sh &&
+    sed \
+      -e "s#\${USR_BIN_DIR}#${PASS_BIN_DIR}#" \
+      -e "s#\${SUDO_DIR}#${PASS_SUDO_DIR}#" \
+      -e "s#\${DOT_SSH}#${DOT_SSH}#" \
+      -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+      -e "s#\${PASS_STORE}#${PASS_STORE}#" \
+      -e "w/usr/local/bin/gpg" \
+      /vagrant/injections/gpg.sh &&
   chmod 0500 /usr/local/bin/pass &&
   chmod a+rx /usr/local/bin/pass &&
   true
