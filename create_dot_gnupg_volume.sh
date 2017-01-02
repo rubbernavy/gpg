@@ -74,6 +74,13 @@ inject(){
   PASS_SUDO_DIR=$(docker volume create) &&
   echo "XxXXXXXXX 3000" &&
   echo "XxXXXXXXX 4000" &&
+  docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${DOT_GNUPG}:/usr/local/src \
+    emorymerryman/base:0.0.6 \
+    chown --recursive user:user /usr/local/src &&
   inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
@@ -90,13 +97,6 @@ inject(){
       /usr/bin/sh /vagrant/injections/pass.sh ${@} &&
       true
   } &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${DOT_GNUPG}:/usr/local/src \
-    emorymerryman/base:0.0.6 \
-    chown --recursive user:user /usr/local/src &&
   echo allow-loopback-pinentry | docker \
     run \
     --interactive \
