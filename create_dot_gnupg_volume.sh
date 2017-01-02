@@ -66,6 +66,14 @@ volume(){
         done &&
       true
   } &&
+  PASS_STORE=$(volume) &&
+  BIN=$(volume) &&
+  DOT_GNUPG=$(volume) &&
+  DOT_SSH=$(volume) &&
+  GIT_BIN_DIR=$(volume) &&
+  GIT_SUDO_DIR=$(volume) &&
+  PASS_BIN_DIR=$(volume) &&
+  PASS_SUDO_DIR=$(volume) &&
   gpg(){
     export SRC_DIR=/vagrant &&
       /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
@@ -78,14 +86,6 @@ volume(){
       /usr/bin/sh /vagrant/injections/pass.sh ${@} &&
       true
   } &&
-  PASS_STORE=$(volume) &&
-  BIN=$(volume) &&
-  DOT_GNUPG=$(volume) &&
-  DOT_SSH=$(volume) &&
-  GIT_BIN_DIR=$(volume) &&
-  GIT_SUDO_DIR=$(volume) &&
-  PASS_BIN_DIR=$(volume) &&
-  PASS_SUDO_DIR=$(volume) &&
   inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(volume) $(volume) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(volume) $(volume) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
