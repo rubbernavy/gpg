@@ -10,6 +10,7 @@ volume(){
       --workdir /usr/local/src \
       emorymerryman/base:0.0.6 \
       chown user:user . &&
+    echo ${VOLUME} &&
     true
 } &&
   inject(){
@@ -21,6 +22,7 @@ volume(){
       DOT_SSH=${6} &&
       DOT_GNUPG=${7} &&
       PASS_STORE=${8} &&
+      echo PROGRAM=${PROGRAM} ROOT_BIN_DIR=${ROOT_BIN_DIR} SRC_DIR=${SRC_DIR} USR_BIN_DIR=${USR_BIN_DIR} SUDO_DIR=${SUDO_DIR} DOT_SSH=${DOT_SSH} DOT_GNUPG=${DOT_GNUPG} PASS_STORE=${PASS_STORE} &&
       docker \
         run \
         --interactive \
@@ -84,8 +86,8 @@ volume(){
   GIT_SUDO_DIR=$(volume) &&
   PASS_BIN_DIR=$(volume) &&
   PASS_SUDO_DIR=$(volume) &&
-  inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
-  inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(volume) $(volume) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(volume) $(volume) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   (

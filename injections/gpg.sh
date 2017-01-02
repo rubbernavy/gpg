@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo DOT_SSH=${DOT_SSH} &&
 docker \
   run \
   --interactive \
