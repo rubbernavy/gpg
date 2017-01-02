@@ -72,6 +72,11 @@ inject(){
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  blank(){
+    docker run --interactive --rm --volume ${1}:/usr/local/src emorymerryman/base:0.0.6 chown --recursive user:user /usr/local/src &&
+      true
+  } &&
+  blank ${PASS_STORE} &&
   git(){
     export USR_BIN_DIR=${GIT_BIN_DIR} &&
       export SUDO_DIR=${GIT_SUDO_DIR} &&
