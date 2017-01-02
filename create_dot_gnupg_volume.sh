@@ -90,7 +90,9 @@ volume(){
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(volume) $(volume) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
-  (
+
+  echo BEFORE &&
+    echo DOT_GNUPG=${DOT_GNUPG} &&
     echo allow-loopback-pinentry | docker \
       run \
       --interactive \
@@ -99,23 +101,8 @@ volume(){
       --user user \
       emorymerryman/base:0.0.6 \
       tee -a /usr/local/src/gpg-agent.conf &&
-        docker \
-          run \
-          --interactive \
-          --rm \
-          --user user \
-          --volume ${DOT_GNUPG}:/usr/local/src \
-          emorymerryman/base:0.0.6 \
-          chown --recursive user:user /usr/local/src &&
-        docker \
-          run \
-          --interactive \
-          --rm \
-          --volume ${DOT_GNUPG}:/usr/local/src \
-          emorymerryman/base:0.0.6 \
-          chown --recursive user:user /usr/local/src &&
-          true
-  ) &&
+
+          echo WTF &&
   gpg --import --no-tty public.gpg.key &&
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
