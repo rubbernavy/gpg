@@ -119,6 +119,7 @@ inject(){
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
+  git init &&
   git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   git fetch origin master &&
   git checkout origin/master &&
