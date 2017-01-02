@@ -7,6 +7,6 @@ docker \
   --volume ${SRC_DIR}:/usr/local/src \
   --workdir /usr/local/src \
   --user user \
-  emorymerryman/tree:0.0.1 \
+  emorymerryman/tree:0.0.2 \
   ${@} &&
   true
