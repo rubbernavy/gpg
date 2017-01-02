@@ -114,8 +114,8 @@ inject(){
   pass init D65D3F8C &&
   (
     pass git init || (
-      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src --user user ls -alh . &&
-      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src/.git --user user ls -alh . &&
+      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src --user user emorymerryman/base:0.0.6 ls -alh . &&
+      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src/.git --user user emorymerryman/base:0.0.6 ls -alh . &&
       exit 64 &&
         true
     )

@@ -2,6 +2,7 @@
 
 COMMIT_ID=$(git rev-parse --verify HEAD) &&
   WORK_DIR=$(mktemp -d) &&
+  vagrant halt &&
   vagrant destroy -f &&
   vagrant provision &&
   vagrant up &&
