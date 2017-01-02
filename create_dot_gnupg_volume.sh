@@ -101,7 +101,7 @@ inject(){
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   docker pull emorymerryman/git:0.0.1 &&
-  docker pull emorymerryman/pass:0.5.1 &&
+  docker pull emorymerryman/pass:0.6.0 &&
   docker pull emorymerryman/ssh:0.0.1 &&
   mkdir /home/vagrant/bin &&
   sed \

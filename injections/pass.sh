@@ -9,6 +9,6 @@ docker \
   --volume ${SUDO_DIR}:/etc/sudoers.d:ro \
   --volume ${PASS_STORE}:/home/user/.password-store \
   --user user \
-  emorymerryman/pass:0.5.1 \
+  emorymerryman/pass:0.6.0 \
   ${@} &&
   true
