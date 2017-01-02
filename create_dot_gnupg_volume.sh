@@ -102,14 +102,14 @@ inject(){
     --interactive \
     --rm \
     --volume ${DOT_GNUPG}:/usr/local/src \
-    --user user
+    --user user \
     emorymerryman/base:0.0.6 \
     tee -a /usr/local/src/gpg-agent.conf &&
     docker \
       run \
       --interactive \
       --rm \
-      --user user
+      --user user \
       --volume ${DOT_GNUPG}:/usr/local/src \
       emorymerryman/base:0.0.6 \
       chown --recursive user:user /usr/local/src &&
