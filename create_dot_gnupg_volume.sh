@@ -88,6 +88,7 @@ inject(){
       export SUDO_DIR=${PASS_SUDO_DIR} &&
       export PASS_STORE=${PASS_STORE} &&
       /usr/bin/sh /vagrant/injections/pass.sh ${@} &&
+      true
   } &&
   docker \
     run \
