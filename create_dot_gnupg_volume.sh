@@ -96,7 +96,7 @@ inject(){
     --rm \
     --volume ${DOT_GNUPG}:/usr/local/src \
     emorymerryman/base:0.0.6 \
-    chown user:user /usr/local/src &&
+    chown --recursive user:user /usr/local/src &&
   echo allow-loopback-pinentry | docker \
     run \
     --interactive \
@@ -107,6 +107,13 @@ inject(){
   gpg --import --no-tty public.gpg.key &&
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
+  docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${DOT_GNUPG}:/usr/local/src \
+    emorymerryman/base:0.0.6 \
+    chown --recursive user:user /usr/local/src &&
   docker pull emorymerryman/git:0.0.1 &&
   docker pull emorymerryman/pass:0.6.0 &&
   docker pull emorymerryman/ssh:0.0.1 &&
