@@ -9,6 +9,7 @@ inject(){
     SUDO_DIR=${5} &&
     DOT_SSH=${6} &&
     DOT_GNUPG=${7} &&
+    PASS_STORE=${8} &&
     docker \
       run \
       --interactive \
@@ -22,6 +23,7 @@ inject(){
         -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
         -e "s#\${DOT_SSH}#${DOT_SSH}#" \
         -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+        -e "s#\${PASS_STORE}#${PASS_STORE}#" \
         -e "w/root/bin/${PROGRAM}" \
         /usr/local/src/${PROGRAM}.sh &&
     docker \
@@ -72,10 +74,10 @@ inject(){
   PASS_SUDO_DIR=$(docker volume create) &&
   echo "XxXXXXXXX 3000" &&
   echo "XxXXXXXXX 4000" &&
-  inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
-  inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} &&
-  inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
-  inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} &&
+  inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   gpg(){
     export SRC_DIR=/vagrant &&
       /usr/bin/sh --login /vagrant/injections/gpg.sh ${@} &&
@@ -107,6 +109,7 @@ inject(){
     -e "s#\${SUDO_DIR}#${PASS_SUDO_DIR}#" \
     -e "s#\${DOT_SSH}#${DOT_SSH}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+    -e "s#\${PASS_STORE}#${PASS_STORE}#" \
     -e "w/usr/local/bin/pass" \
     /vagrant/injections/pass.sh &&
   chmod 0500 /usr/local/bin/pass &&
