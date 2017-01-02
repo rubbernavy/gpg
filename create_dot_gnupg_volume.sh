@@ -1,87 +1,67 @@
 #!/bin/sh
 
-echo "XxXXXXXXX 2000" &&
-inject(){
-  PROGRAM=${1} &&
-    ROOT_BIN_DIR=${2} &&
-    SRC_DIR=${3} &&
-    USR_BIN_DIR=${4} &&
-    SUDO_DIR=${5} &&
-    DOT_SSH=${6} &&
-    DOT_GNUPG=${7} &&
-    PASS_STORE=${8} &&
+volume(){
+  VOLUME=$(docker volume create) &&
     docker \
       run \
       --interactive \
       --rm \
-      --volume ${ROOT_BIN_DIR}:/root/bin \
-      --volume /vagrant/injections:/usr/local/src:ro \
+      --volume ${VOLUME}:/usr/local/src \
+      --workdir /usr/local/src \
       emorymerryman/base:0.0.6 \
-      sed \
-        -e "s#\${SRC_DIR}#${SRC_DIR}#" \
-        -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
-        -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
-        -e "s#\${DOT_SSH}#${DOT_SSH}#" \
-        -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-        -e "s#\${PASS_STORE}#${PASS_STORE}#" \
-        -e "w/root/bin/${PROGRAM}" \
-        /usr/local/src/${PROGRAM}.sh &&
-    docker \
-      run \
-      --interactive \
-      --rm \
-      --volume ${ROOT_BIN_DIR}:/root/bin \
-      emorymerryman/base:0.0.6 \
-      chmod 0500 /root/bin/${PROGRAM} &&
-    docker \
-      run \
-      --interactive \
-      --rm \
-      --volume ${USR_BIN_DIR}:/usr/local/bin:ro \
-      emorymerryman/base:0.0.6 \
-      ls -1 /usr/local/bin | while read PRG
-      do
-        echo user ALL = NOPASSWD: /usr/local/bin/${PRG} |
-        docker \
-          run \
-          --interactive \
-          --rm \
-          --volume ${SUDO_DIR}:/etc/sudoers.d \
-          emorymerryman/base:0.0.6 \
-          tee /etc/sudoers.d/${PRG} &&
-        true
-      done &&
+      chown user:user . &&
     true
 } &&
-  PASS_STORE=$(docker volume create) &&
-  BIN=$(docker volume create --name bin) &&
-  export DOT_GNUPG=$(docker volume create) &&
-  export DOT_SSH=$(docker volume create) &&
-  GIT_BIN_DIR=$(docker volume create) &&
-  GIT_SUDO_DIR=$(docker volume create) &&
-  PASS_BIN_DIR=$(docker volume create) &&
-  PASS_SUDO_DIR=$(docker volume create) &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${DOT_GNUPG}:/usr/local/src \
-    emorymerryman/base:0.0.6 \
-    chown --recursive user:user /usr/local/src &&
-  inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
-  inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
-  inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
-  inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
-  blank(){
-    docker run --interactive --rm --volume ${1}:/usr/local/src emorymerryman/base:0.0.6 chown --recursive user:user /usr/local/src &&
-      true
-  } &&
-  blank ${PASS_STORE} &&
-  git(){
-    export USR_BIN_DIR=${GIT_BIN_DIR} &&
-      export SUDO_DIR=${GIT_SUDO_DIR} &&
-      export SRC_DIR=${PASS_STORE} &&
-      /usr/bin/sh /vagrant/injections/git.sh ${@} &&
+  inject(){
+    PROGRAM=${1} &&
+      ROOT_BIN_DIR=${2} &&
+      SRC_DIR=${3} &&
+      USR_BIN_DIR=${4} &&
+      SUDO_DIR=${5} &&
+      DOT_SSH=${6} &&
+      DOT_GNUPG=${7} &&
+      PASS_STORE=${8} &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume ${ROOT_BIN_DIR}:/root/bin \
+        --volume /vagrant/injections:/usr/local/src:ro \
+        emorymerryman/base:0.0.6 \
+        sed \
+          -e "s#\${SRC_DIR}#${SRC_DIR}#" \
+          -e "s#\${USR_BIN_DIR}#${USR_BIN_DIR}#" \
+          -e "s#\${SUDO_DIR}#${SUDO_DIR}#" \
+          -e "s#\${DOT_SSH}#${DOT_SSH}#" \
+          -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+          -e "s#\${PASS_STORE}#${PASS_STORE}#" \
+          -e "w/root/bin/${PROGRAM}" \
+          /usr/local/src/${PROGRAM}.sh &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume ${ROOT_BIN_DIR}:/root/bin \
+        emorymerryman/base:0.0.6 \
+        chmod 0500 /root/bin/${PROGRAM} &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume ${USR_BIN_DIR}:/usr/local/bin:ro \
+        emorymerryman/base:0.0.6 \
+        ls -1 /usr/local/bin | while read PRG
+        do
+          echo user ALL = NOPASSWD: /usr/local/bin/${PRG} |
+          docker \
+            run \
+            --interactive \
+            --rm \
+            --volume ${SUDO_DIR}:/etc/sudoers.d \
+            emorymerryman/base:0.0.6 \
+            tee /etc/sudoers.d/${PRG} &&
+          true
+        done &&
       true
   } &&
   gpg(){
@@ -96,46 +76,53 @@ inject(){
       /usr/bin/sh /vagrant/injections/pass.sh ${@} &&
       true
   } &&
-  echo allow-loopback-pinentry | docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${DOT_GNUPG}:/usr/local/src \
-    --user user \
-    emorymerryman/base:0.0.6 \
-    tee -a /usr/local/src/gpg-agent.conf &&
-    docker \
+  PASS_STORE=$(volume) &&
+  BIN=$(volume) &&
+  DOT_GNUPG=$(volume) &&
+  DOT_SSH=$(volume) &&
+  GIT_BIN_DIR=$(volume) &&
+  GIT_SUDO_DIR=$(volume) &&
+  PASS_BIN_DIR=$(volume) &&
+  PASS_SUDO_DIR=$(volume) &&
+  inject gpg ${PASS_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  (
+    echo allow-loopback-pinentry | docker \
       run \
       --interactive \
       --rm \
+      --volume ${DOT_GNUPG}:/usr/local/src \
       --user user \
-      --volume ${DOT_GNUPG}:/usr/local/src \
       emorymerryman/base:0.0.6 \
-      chown --recursive user:user /usr/local/src &&
-    docker \
-      run \
-      --interactive \
-      --rm \
-      --volume ${DOT_GNUPG}:/usr/local/src \
-      emorymerryman/base:0.0.6 \
-      chown --recursive user:user /usr/local/src &&
+      tee -a /usr/local/src/gpg-agent.conf &&
+        docker \
+          run \
+          --interactive \
+          --rm \
+          --user user \
+          --volume ${DOT_GNUPG}:/usr/local/src \
+          emorymerryman/base:0.0.6 \
+          chown --recursive user:user /usr/local/src &&
+        docker \
+          run \
+          --interactive \
+          --rm \
+          --volume ${DOT_GNUPG}:/usr/local/src \
+          emorymerryman/base:0.0.6 \
+          chown --recursive user:user /usr/local/src &&
+          true
+  ) &&
   gpg --import --no-tty public.gpg.key &&
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
-  git init &&
-  git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
-  git fetch origin master &&
-  git checkout origin/master &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${DOT_GNUPG}:/usr/local/src \
-    emorymerryman/base:0.0.6 \
-    chown --recursive user:user /usr/local/src &&
-  docker pull emorymerryman/git:0.0.1 &&
+  pass git init &&
+  pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
+  pass git fetch origin master &&
+  pass git checkout origin/master &&
   docker pull emorymerryman/pass:0.6.0 &&
   docker pull emorymerryman/ssh:0.0.1 &&
   sed \
