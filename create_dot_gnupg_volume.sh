@@ -104,6 +104,20 @@ inject(){
     --volume ${DOT_GNUPG}:/usr/local/src \
     emorymerryman/base:0.0.6 \
     tee -a /usr/local/src/gpg-agent.conf &&
+    docker \
+      run \
+      --interactive \
+      --rm \
+      --volume ${DOT_GNUPG}:/usr/local/src \
+      emorymerryman/base:0.0.6 \
+      chown --recursive user:user /usr/local/src &&
+    docker \
+      run \
+      --interactive \
+      --rm \
+      --volume ${DOT_GNUPG}:/usr/local/src \
+      emorymerryman/base:0.0.6 \
+      chown --recursive user:user /usr/local/src &&
   gpg --import --no-tty public.gpg.key &&
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
