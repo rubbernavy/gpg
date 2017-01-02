@@ -72,6 +72,13 @@ inject(){
   inject ssh ${GIT_BIN_DIR} ${PASS_STORE} $(docker volume create) $(docker volume create) ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject git ${PASS_BIN_DIR} ${PASS_STORE} ${GIT_BIN_DIR} ${GIT_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
   inject pass ${BIN} ${PASS_STORE} ${PASS_BIN_DIR} ${PASS_SUDO_DIR} ${DOT_SSH} ${DOT_GNUPG} ${PASS_STORE} &&
+  git(){
+    export USR_BIN_DIR=${GIT_BIN_DIR} &&
+      export SUDO_DIR=${GIT_SUDO_DIR} &&
+      export SRC_DIR=${PASS_STORE} &&
+      /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
+      true
+  } &&
   gpg(){
     export SRC_DIR=/vagrant &&
       /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
@@ -112,19 +119,9 @@ inject(){
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
-  (
-    pass git init || (
-      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src --user user emorymerryman/base:0.0.6 pwd &&
-      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src --user user emorymerryman/base:0.0.6 ls -alh . &&
-      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src/.git --user user emorymerryman/base:0.0.6 pwd &&
-      docker run --interactive --rm --volume ${PASS_STORE}:/usr/local/src --workdir /usr/local/src/.git --user user emorymerryman/base:0.0.6 ls -alh . &&
-      exit 64 &&
-        true
-    )
-  ) &&
-  pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
-  pass git fetch origin master &&
-  pass git checkout origin/master &&
+  git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
+  git fetch origin master &&
+  git checkout origin/master &&
   docker \
     run \
     --interactive \
