@@ -114,7 +114,7 @@ volume(){
   pass git checkout origin/master &&
   docker pull emorymerryman/pass:0.6.0 &&
   docker pull emorymerryman/ssh:0.0.1 &&
-  docker pull emorymerryman/tree:0.0.2 &&
+#  docker pull emorymerryman/tree:0.0.2 &&
   sed \
     -e "s#\${USR_BIN_DIR}#${PASS_BIN_DIR}#" \
     -e "s#\${SUDO_DIR}#${PASS_SUDO_DIR}#" \
