@@ -1,6 +1,6 @@
 #!/bin/sh
 
-docker \
+sudo docker \
   run \
   --interactive \
   --rm \
