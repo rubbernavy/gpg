@@ -115,7 +115,7 @@ volume(){
   gpg(){
     export WORK=/vagrant &&
       export DOT_GNUPG=${DOT_GNUPG} &&
-      /usr/bin/sh /vagrant/injections/gpg.sh ${@} &&
+      /usr/bin/sh /vagrant/injections/sbin/gpg.sh ${@} &&
       true
   } &&
   pass(){
@@ -123,7 +123,7 @@ volume(){
       export SBIN=${PASS_SBIN} &&
       export SUDO=${PASS_SUDO} &&
       export PASS_STORE=${DOT_PASSWORD_STORE} &&
-      /usr/bin/sh /vagrant/injections/pass.sh ${@} &&
+      /usr/bin/sh /vagrant/injections/sbin/pass.sh ${@} &&
       true
   } &&
   echo allow-loopback-pinentry | docker \
