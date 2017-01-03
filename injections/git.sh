@@ -6,7 +6,7 @@ docker \
   --rm \
   --volume /var/run/docker.sock:/var/run/docker.sock:ro \
   --volume ${USR_BIN_DIR}:/usr/local/bin:ro \
-  --volume ${SRC_DIR}:/usr/local/src \
+  --volume ${PASS_STORE}:/usr/local/src \
   --volume ${SUDO_DIR}:/etc/sudoers.d:ro \
   --workdir /usr/local/src \
   --user user \

@@ -105,14 +105,24 @@ volume(){
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
+  echo 10010 &&
   pass init D65D3F8C &&
-  pass git init &&
+  echo 10020 &&
+  ( pass git init || git init ) &&
+  echo 10030 &&
   pass git config user.name "Emory Merryman" &&
+  echo 10040 &&
   pass git config user.email "emory.merryman+$(uuidgen)@gmail.com" &&
+  echo 10050 &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
+  echo 10060 &&
   pass git fetch origin master &&
+  echo 10070 &&
   pass git checkout origin/master &&
+  echo 10080 &&
   pass show &&
+  echo 10090 &&
+  echo AFTER &&
   docker pull emorymerryman/pass:0.6.0 &&
 #  docker pull emorymerryman/ssh:0.0.1 &&
 #  docker pull emorymerryman/tree:0.0.2 &&
