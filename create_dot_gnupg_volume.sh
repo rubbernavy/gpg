@@ -45,7 +45,7 @@ volume(){
         --rm \
         --volume ${ROOT_BIN_DIR}:/root/bin \
         emorymerryman/base:0.0.6 \
-        chmod 0500 /root/bin/${PROGRAM} &&
+        chmod 0555 /root/bin/${PROGRAM} &&
       docker \
         run \
         --interactive \
@@ -107,8 +107,8 @@ volume(){
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
   pass git init &&
-  pass git config --user.name "Emory Merryman" &&
-  pass git config --user.email "emory.merryman+$(uuidgen)@gmail.com" &&
+  pass git config user.name "Emory Merryman" &&
+  pass git config user.email "emory.merryman+$(uuidgen)@gmail.com" &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
   pass git checkout origin/master &&
