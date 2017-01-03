@@ -75,7 +75,7 @@ volume(){
         --rm \
         --volume ${SUDO}:/etc/sudoers.d \
         emorymerryman/base:0.0.6 \
-        tee /etc/suders.d/${PROGRAM} &&
+        tee /etc/sudoers.d/${PROGRAM} &&
       docker \
         run \
         --interactive \
