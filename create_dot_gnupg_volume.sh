@@ -122,7 +122,7 @@ volume(){
     export BIN=${PASS_BIN} &&
       export SBIN=${PASS_SBIN} &&
       export SUDO=${PASS_SUDO} &&
-      export PASS_STORE=${DOT_PASSWORD_STORE} &&
+      export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
       /usr/bin/sh /vagrant/injections/sbin/pass.sh ${@} &&
       true
   } &&
