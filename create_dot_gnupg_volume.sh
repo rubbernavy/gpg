@@ -59,8 +59,8 @@ volume(){
         --workdir /usr/local/src \
         emorymerryman/base:0.0.6 \
         sed \
-          -e "s#\${PROGRAM}#${PROGRAM}#"
-          -e "w/usr/local/bin/${PROGRAM}"
+          -e "s#\${PROGRAM}#${PROGRAM}#" \
+          -e "w/usr/local/bin/${PROGRAM}" \
           bin.sh
       docker \
         run \
