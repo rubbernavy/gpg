@@ -112,8 +112,9 @@ volume(){
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
   pass git checkout origin/master &&
+  pass show &&
   docker pull emorymerryman/pass:0.6.0 &&
-  docker pull emorymerryman/ssh:0.0.1 &&
+#  docker pull emorymerryman/ssh:0.0.1 &&
 #  docker pull emorymerryman/tree:0.0.2 &&
   sed \
     -e "s#\${USR_BIN_DIR}#${PASS_BIN_DIR}#" \
