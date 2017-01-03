@@ -30,7 +30,7 @@ volume(){
         --interactive \
         --rm \
         --volume ${SBIN}:/usr/local/sbin \
-        --volume /vagrant/injections:/usr/local/src:ro \
+        --volume /vagrant/injections/sbin:/usr/local/src:ro \
         --workdir /usr/local/src \
         emorymerryman/base:0.0.6 \
         sed \
@@ -42,7 +42,7 @@ volume(){
           -e "s#\${DOT_GNUPG}#${DOT_PASSWORD_STORE}#" \
           -e "s#\${DOT_GNUPG}#${DOT_SSH}#" \
           -e "w/usr/local/sbin/${PROGRAM}" \
-          /usr/local/src/${PROGRAM}.sh &&
+          ${PROGRAM}.sh &&
       docker \
         run \
         --interactive \
