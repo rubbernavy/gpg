@@ -156,6 +156,7 @@ volume(){
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
+  pass git init &&
   pass git config user.name "Emory Merryman" &&
   pass git config user.email "emory.merryman+$(uuidgen)@gmail.com" &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
