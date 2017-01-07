@@ -8,9 +8,9 @@ docker \
   --volume ${SBIN}:/usr/local/sbin:ro \
   --volume ${BIN}:/usr/local/bin:ro \
   --volume ${SUDO}:/etc/sudoers.d:ro \
-  --volume ${WORK}:/usr/local/src \
-  --workdir /usr/local/src \
+  --volume ${WORK}:/home/user/src \
+  --workdir /home/user/src \
   --user user \
-  emorymerryman/git:0.0.1 \
+  emorymerryman/git:0.0.3 \
   ${@} &&
   true

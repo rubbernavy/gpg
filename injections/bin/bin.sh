@@ -1,4 +1,4 @@
 #!/bin/sh
 
-sudo ${PROGRAM} ${@} &&
+sudo /usr/local/sbin/${PROGRAM} ${@} &&
   true
