@@ -183,6 +183,11 @@ volume(){
   pass git checkout origin/master &&
   shell ls -alh /usr/local/bin &&
   shell ls -alh /usr/local/sbin &&
+  shell env &&
+  shell ls -alh /usr/local/bin/tree &&
+  shell cat /usr/local/bin/tree &&
+  shell cat /usr/local/sbin/tree &&
+  shell /usr/local/sbin/tree &&
   shell which tree &&
   pass show &&
   docker images &&
