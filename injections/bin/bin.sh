@@ -1,4 +1,4 @@
 #!/bin/sh
 
-sudo ${PROGRAM} &&
+sudo ${PROGRAM} ${@} &&
   true
