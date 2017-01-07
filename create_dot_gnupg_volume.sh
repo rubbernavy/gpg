@@ -181,14 +181,7 @@ volume(){
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
   pass git checkout origin/master &&
-  shell ls -alh /usr/local/bin &&
-  shell ls -alh /usr/local/sbin &&
-  shell env &&
-  shell ls -alh /usr/local/bin/tree &&
-  shell cat /usr/local/bin/tree &&
-  shell cat /usr/local/sbin/tree &&
-  shell /usr/local/sbin/tree &&
-  shell which tree &&
+  shell ln --symbolic --force /usr/local/bin/tree /usr/bin/tree &&
   pass show &&
   docker images &&
   true
