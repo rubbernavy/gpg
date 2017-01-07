@@ -163,88 +163,46 @@ volume(){
   gpg --import --batch --no-tty private.gpg.key &&
   gpg --import-ownertrust --no-tty ownertrust.gpg.key &&
   (gpg --list-keys || true) &&
-  docker pull emorymerryman/git:0.0.3 &&
-  echo BEFORE .................................. &&
-  echo DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
+  pass init D65D3F8C &&
+  echo DOIN STUF ............................... &&
 
-  volume ${DOT_PASSWORD_STORE} &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-    --volume ${PASS_SBIN}:/usr/local/sbin:ro \
-    --volume ${PASS_BIN}:/usr/local/bin:ro \
-    --volume ${PASS_SUDO}:/etc/sudoers.d:ro \
-    --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-    --user root \
-    emorymerryman/base:0.0.6 \
-    cat /usr/local/bin/git &&
     docker \
       run \
       --interactive \
       --rm \
       --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-      --volume ${PASS_SBIN}:/usr/local/sbin:ro \
-      --volume ${PASS_BIN}:/usr/local/bin:ro \
-      --volume ${PASS_SUDO}:/etc/sudoers.d:ro \
+      --volume ${SBIN}:/usr/local/sbin:ro \
+      --volume ${BIN}:/usr/local/bin:ro \
+      --volume ${SUDO}:/etc/sudoers.d:ro \
       --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-      --user root \
       emorymerryman/base:0.0.6 \
-      cat /usr/local/sbin/git &&
+      which pass git &&
 
+              docker \
+                run \
+                --interactive \
+                --rm \
+                --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+                --volume ${SBIN}:/usr/local/sbin:ro \
+                --volume ${BIN}:/usr/local/bin:ro \
+                --volume ${SUDO}:/etc/sudoers.d:ro \
+                --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+                --user user \
+                emorymerryman/base:0.0.6 \
+                which pass git &&
 
-  LOCAL_GIT=$(mktemp) &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-    --volume ${PASS_SBIN}:/usr/local/sbin:ro \
-    --volume ${PASS_BIN}:/usr/local/bin:ro \
-    --volume ${PASS_SUDO}:/etc/sudoers.d:ro \
-    --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-    --user root \
-    emorymerryman/base:0.0.6 \
-    cat /usr/local/sbin/git > ${LOCAL_GIT} &&
-  chmod 0500 ${LOCAL_GIT} &&
-  cat ${LOCAL_GIT} &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-    --volume ${PASS_SBIN}:/usr/local/sbin:ro \
-    --volume ${PASS_BIN}:/usr/local/bin:ro \
-    --volume ${PASS_SUDO}:/etc/sudoers.d:ro \
-    --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-    --user root \
-    emorymerryman/base:0.0.6 \
-    stat /home/user/.password-store &&
-  ${LOCAL_GIT} init &&
-
-
-
-
-  pass init D65D3F8C &&
-  echo DOIN STUF ............................... &&
-  echo HERE .................................. &&
-  echo DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
-
-  git init &&
-  echo DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-    --volume ${PASS_SBIN}:/usr/local/sbin:ro \
-    --volume ${PASS_BIN}:/usr/local/bin:ro \
-    --volume ${PASS_SUDO}:/etc/sudoers.d:ro \
-    --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-    --user root \
-    emorymerryman/base:0.0.6 \
-    cat /usr/local/sbin/git &&
+                        docker \
+                          run \
+                          --interactive \
+                          --rm \
+                          --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+                          --volume ${SBIN}:/usr/local/sbin:ro \
+                          --volume ${BIN}:/usr/local/bin:ro \
+                          --volume ${SUDO}:/etc/sudoers.d:ro \
+                          --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+                          --user user \
+                          emorymerryman/base:0.0.6 \
+                          env &&
 
 
   pass git init &&
