@@ -148,7 +148,6 @@ volume(){
       export SBIN=${PASS_SBIN} &&
       export SUDO=${PASS_SUDO} &&
       export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
-      /usr/bin/sh /vagrant/injections/sbin/pass.sh ${@} &&
       docker \
         run \
         --interactive \
