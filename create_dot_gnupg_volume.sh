@@ -176,17 +176,14 @@ volume(){
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
   pass git init &&
-  shell ls -alh /home/user/.password-store/.git &&
   pass git config user.name "Emory Merryman" &&
-  shell ls -alh /home/user/.password-store/.git &&
   pass git config user.email "emory.merryman+$(uuidgen)@gmail.com" &&
-  echo configured git &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
   pass git checkout origin/master &&
-  pass git remote -v &&
   shell ls -alh /usr/local/bin &&
   shell ls -alh /usr/local/sbin &&
+  shell which tree &&
   pass show &&
   docker images &&
   true
