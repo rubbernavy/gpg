@@ -143,6 +143,26 @@ volume(){
       /usr/bin/sh /vagrant/injections/sbin/pass.sh ${@} &&
       true
   } &&
+  shell(){
+    export BIN=${PASS_BIN} &&
+      export SBIN=${PASS_SBIN} &&
+      export SUDO=${PASS_SUDO} &&
+      export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
+      /usr/bin/sh /vagrant/injections/sbin/pass.sh ${@} &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+        --volume ${SBIN}:/usr/local/sbin:ro \
+        --volume ${BIN}:/usr/local/bin:ro \
+        --volume ${SUDO}:/etc/sudoers.d:ro \
+        --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+        --env PATH=PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+        --user user \
+        emorymerryman/base:0.0.6 \
+        ${@}
+  } &&
   echo allow-loopback-pinentry | docker \
     run \
     --interactive \
@@ -157,10 +177,16 @@ volume(){
   (gpg --list-keys || true) &&
   pass init D65D3F8C &&
   pass git init &&
+  base ls -alh /home/user/.password-store/.git &&
   pass git config user.name "Emory Merryman" &&
+  base ls -alh /home/user/.password-store/.git &&
   pass git config user.email "emory.merryman+$(uuidgen)@gmail.com" &&
+  echo configured git &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
   pass git checkout origin/master &&
+  base ls -alh /usr/local/bin &&
+  base ls -alh /usr/local/sbin &&
   pass show &&
+  docker images &&
   true
