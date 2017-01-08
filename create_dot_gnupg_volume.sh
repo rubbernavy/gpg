@@ -162,6 +162,24 @@ volume(){
         emorymerryman/base:0.0.6 \
         ${@}
   } &&
+  root(){
+    export BIN=${PASS_BIN} &&
+      export SBIN=${PASS_SBIN} &&
+      export SUDO=${PASS_SUDO} &&
+      export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+        --volume ${SBIN}:/usr/local/sbin:ro \
+        --volume ${BIN}:/usr/local/bin:ro \
+        --volume ${SUDO}:/etc/sudoers.d:ro \
+        --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+        --env PATH=PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+        emorymerryman/base:0.0.6 \
+        ${@}
+  } &&
   echo allow-loopback-pinentry | docker \
     run \
     --interactive \
@@ -181,7 +199,27 @@ volume(){
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
   pass git checkout origin/master &&
-  shell ln -sf /usr/local/bin/tree /usr/bin/tree &&
+  root ln -sf /usr/local/bin/tree /usr/bin/tree &&
   pass show &&
   docker images &&
+  (
+    seed(){
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume ${SBIN}:/usr/local/sbin:ro \
+        --user user \
+        emorymerryman/base:0.0.6 \
+        cat /usr/local/sbin/${@} > /home/vagrant/bin/${@} &&
+        true
+    } &&
+      mkdir /home/vagrant/bin &&
+      seed git &&
+      seed gpg &&
+      seed pass &&
+      seed ssh &&
+      seed tree &&
+      true
+  ) &&
   true
