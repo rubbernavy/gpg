@@ -37,8 +37,8 @@ volume(){
           -e "s#\${SUDO}#${SUDO2}#" \
           -e "s#\${WORK}#${WORK}#" \
           -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-          -e "s#\${DOT_GNUPG}#${DOT_PASSWORD_STORE}#" \
-          -e "s#\${DOT_GNUPG}#${DOT_SSH}#" \
+          -e "s#\${DOT_PASSWORD_STORE}#${DOT_PASSWORD_STORE}#" \
+          -e "s#\${DOT_SSH}#${DOT_SSH}#" \
           -e "w/usr/local/sbin/${PROGRAM}" \
           ${PROGRAM}.sh &&
       docker \
@@ -212,6 +212,7 @@ volume(){
         --user user \
         emorymerryman/base:0.0.6 \
         cat /usr/local/sbin/${@} > /home/vagrant/bin/${@} &&
+        chmod a+rws /home/vagrant/bin/${@} &&
         true
     } &&
       mkdir /home/vagrant/bin &&
@@ -219,6 +220,7 @@ volume(){
       seed gpg &&
       seed pass &&
       seed tree &&
+      chown --recursive vagrant:vagrant /home/vagrant/bin &&
       true
   ) &&
   true
