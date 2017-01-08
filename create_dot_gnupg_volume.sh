@@ -157,7 +157,7 @@ volume(){
         --volume ${BIN}:/usr/local/bin:ro \
         --volume ${SUDO}:/etc/sudoers.d:ro \
         --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-        --env PATH=PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+        --env PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
         --user user \
         emorymerryman/base:0.0.6 \
         ${@}
@@ -176,7 +176,7 @@ volume(){
         --volume ${BIN}:/usr/local/bin:ro \
         --volume ${SUDO}:/etc/sudoers.d:ro \
         --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-        --env PATH=PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+        --env PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
         emorymerryman/base:0.0.6 \
         ${@}
   } &&
