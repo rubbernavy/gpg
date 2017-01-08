@@ -218,7 +218,6 @@ volume(){
       seed git &&
       seed gpg &&
       seed pass &&
-      seed ssh &&
       seed tree &&
       true
   ) &&
