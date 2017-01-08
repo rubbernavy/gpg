@@ -116,7 +116,6 @@ volume(){
   volume ${DOT_SSH} &&
   volume ${GIT_BIN} &&
   volume ${GIT_SBIN} &&
-  volume ${GIT_SUDO} &&
   volume ${GPG_BIN} &&
   volume ${GPG_SBIN} &&
   volume ${GPG_SUDO} &&
