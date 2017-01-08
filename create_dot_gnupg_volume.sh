@@ -7,7 +7,7 @@ volume(){
       --rm \
       --volume ${@}:/usr/local/src \
       --workdir /usr/local/src \
-      emorymerryman/base:0.0.6 \
+      emorymerryman/base:0.0.7 \
       chown --recursive user:user . &&
     true
 } &&
@@ -30,7 +30,7 @@ volume(){
         --volume ${SBIN}:/usr/local/sbin \
         --volume /vagrant/injections/sbin:/usr/local/src:ro \
         --workdir /usr/local/src \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         sed \
           -e "s#\${SBIN}#${SBIN2}#" \
           -e "s#\${BIN}#${BIN2}#" \
@@ -46,7 +46,7 @@ volume(){
         --interactive \
         --rm \
         --volume ${SBIN}:/usr/local/sbin \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         chmod 0500 /usr/local/sbin/${PROGRAM} &&
       docker \
         run \
@@ -55,7 +55,7 @@ volume(){
         --volume ${BIN}:/usr/local/bin \
         --volume /vagrant/injections/bin:/usr/local/src:ro \
         --workdir /usr/local/src \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         sed \
           -e "s#\${PROGRAM}#${PROGRAM}#" \
           -e "w/usr/local/bin/${PROGRAM}" \
@@ -65,21 +65,21 @@ volume(){
         --interactive \
         --rm \
         --volume ${BIN}:/usr/local/bin \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         chmod 0555 /usr/local/bin/${PROGRAM} &&
       echo user ALL = NOPASSWD: /usr/local/sbin/${PROGRAM} | docker \
         run \
         --interactive \
         --rm \
         --volume ${SUDO}:/etc/sudoers.d \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         tee /etc/sudoers.d/${PROGRAM} &&
       docker \
         run \
         --interactive \
         --rm \
         --volume ${SUDO}:/etc/sudoers.d \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         chmod 0444 /etc/sudoers.d/${PROGRAM} &&
       true
   } &&
@@ -106,6 +106,7 @@ volume(){
   SUDO=$(docker volume create) &&
   WORK=$(docker volume create) &&
   inject git ${PASS_SBIN} ${PASS_BIN} ${PASS_SUDO} ${GIT_SBIN} ${GIT_BIN} ${GIT_SUDO} ${DOT_PASSWORD_STORE} ${DOT_GNUPG} ${DOT_PASSWORD_STORE} ${DOT_SSH} &&
+  echo inject git ${PASS_SBIN} ${PASS_BIN} ${PASS_SUDO} ${GIT_SBIN} ${GIT_BIN} ${GIT_SUDO} ${DOT_PASSWORD_STORE} ${DOT_GNUPG} ${DOT_PASSWORD_STORE} ${DOT_SSH} &&
   inject gpg ${PASS_SBIN} ${PASS_BIN} ${PASS_SUDO} ${GPG_SBIN} ${GPG_BIN} ${GPG_SUDO} ${DOT_PASSWORD_STORE} ${DOT_GNUPG} ${DOT_PASSWORD_STORE} ${DOT_SSH} &&
   inject pass ${SBIN} ${BIN} ${SUDO} ${PASS_SBIN} ${PASS_BIN} ${PASS_SUDO} ${WORK} ${DOT_GNUPG} ${DOT_PASSWORD_STORE} ${DOT_SSH} &&
   inject ssh ${GIT_SBIN} ${GIT_BIN} ${GIT_SUDO} ${SSH_SBIN} ${SSH_BIN} ${SSH_SUDO} ${DOT_PASSWORD_STORE} ${DOT_GNUPG} ${DOT_PASSWORD_STORE} ${DOT_SSH} &&
@@ -158,7 +159,7 @@ volume(){
         --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
         --env PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
         --user user \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         ${@}
   } &&
   root(){
@@ -176,7 +177,7 @@ volume(){
         --volume ${SUDO}:/etc/sudoers.d:ro \
         --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
         --env PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         ${@}
   } &&
   echo allow-loopback-pinentry | docker \
@@ -185,7 +186,7 @@ volume(){
     --rm \
     --volume ${DOT_GNUPG}:/usr/local/src \
     --user user \
-    emorymerryman/base:0.0.6 \
+    emorymerryman/base:0.0.7 \
     tee -a /usr/local/src/gpg-agent.conf &&
   gpg --import --no-tty public.gpg.key &&
   gpg --import --batch --no-tty private.gpg.key &&
@@ -209,7 +210,7 @@ volume(){
         --rm \
         --volume ${SBIN}:/usr/local/sbin:ro \
         --user user \
-        emorymerryman/base:0.0.6 \
+        emorymerryman/base:0.0.7 \
         cat /usr/local/sbin/${@} > /home/vagrant/bin/${@} &&
         chmod a+rwx /home/vagrant/bin/${@} &&
         true

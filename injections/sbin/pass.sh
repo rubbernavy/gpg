@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo pass.sh SBIN=${SBIN} BIN=${BIN} SUDO=${SUDO} DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
 docker \
   run \
   --interactive \
