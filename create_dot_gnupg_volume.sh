@@ -67,7 +67,7 @@ volume(){
         --volume ${BIN}:/usr/local/bin \
         emorymerryman/base:0.0.6 \
         chmod 0555 /usr/local/bin/${PROGRAM} &&
-      echo user ALL = NOPASSWD: /usr/local/sbin/${PRG} | docker \
+      echo user ALL = NOPASSWD: /usr/local/sbin/${PROGRAM} | docker \
         run \
         --interactive \
         --rm \
@@ -212,7 +212,7 @@ volume(){
         --user user \
         emorymerryman/base:0.0.6 \
         cat /usr/local/sbin/${@} > /home/vagrant/bin/${@} &&
-        chmod a+rws /home/vagrant/bin/${@} &&
+        chmod a+rwx /home/vagrant/bin/${@} &&
         true
     } &&
       mkdir /home/vagrant/bin &&
