@@ -81,6 +81,13 @@ volume(){
         --volume ${SUDO}:/etc/sudoers.d \
         emorymerryman/base:0.0.7 \
         chmod 0444 /etc/sudoers.d/${PROGRAM} &&
+        docker \
+          run \
+          --interactive \
+          --rm \
+          --volume ${SUDO}:/etc/sudoers.d \
+          emorymerryman/base:0.0.7 \
+          chown root:root /etc/sudoers.d/${PROGRAM} &&
       true
   } &&
   BIN=$(docker volume create) &&
