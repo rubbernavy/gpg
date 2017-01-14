@@ -8,7 +8,7 @@ docker \
   --volume ${WORK}:/usr/local/src \
   --volume ${DOT_GNUPG}:/home/user/.gnupg \
   --workdir /usr/local/src \
-\  --user user \
+  --user user \
   emorymerryman/gpg:0.1.0 \
   ${@} &&
   true
