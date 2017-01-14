@@ -35,7 +35,7 @@ SBIN=$(docker volume create) &&
       true
   } &&
   sed \
-    -e "s#\${WORK}#${DOT_PASSWORD_STORE}}#" \
+    -e "s#\${WORK}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
     /vagrant/injections/sbin/gpg.sh | docker \
     run \
