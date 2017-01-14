@@ -37,7 +37,7 @@ SBIN=$(docker volume create) &&
   sed \
     -e "s#\${WORK}#${DOT_PASSWORD_STORE}}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-    injections/sbin/gpg.sh | | docker \
+    injections/sbin/gpg.sh | docker \
     run \
     --interactive \
     --rm \
