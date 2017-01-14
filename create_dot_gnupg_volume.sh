@@ -60,6 +60,7 @@ SBIN=$(docker volume create) &&
       --rm \
       --volume /var/run/docker.sock:/var/run/docker.sock:ro \
       --volume ${SBIN}:/usr/local/sbin:ro \
+      --volume /vagrant:/vagrant:ro \
       emorymerryman/base:0.1.1 \
       gpg \
       ${@} &&
