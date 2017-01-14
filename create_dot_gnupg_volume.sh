@@ -61,7 +61,7 @@ SBIN=$(docker volume create) &&
       --volume /var/run/docker.sock:/var/run/docker.sock:ro \
       --volume ${SBIN}:/usr/local/sbin:ro \
       emorymerryman/base:0.1.1 \
-      pass \
+      gpg \
       ${@} &&
       true
   } &&
