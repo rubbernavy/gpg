@@ -3,10 +3,10 @@
 SBIN=$(docker volume create) &&
   DOT_PASSWORD_STORE=$(docker volume create) &&
   DOT_GNUPG=$(docker volume create) &&
-  docker run --interactive
   sed \
     -e "s#\${DOT_PASSWORD_STORE}#${DOT_PASSWORD_STORE}#" \
-    -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" | docker \
+    -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+    injections/sbin/pass.sh | docker \
     run \
     --interactive \
     --rm \
@@ -36,7 +36,8 @@ SBIN=$(docker volume create) &&
   } &&
   sed \
     -e "s#\${WORK}#${DOT_PASSWORD_STORE}}#" \
-    -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" | docker \
+    -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
+    injections/sbin/gpg.sh | | docker \
     run \
     --interactive \
     --rm \
