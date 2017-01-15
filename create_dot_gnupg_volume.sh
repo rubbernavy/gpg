@@ -1,8 +1,6 @@
 #!/bin/sh
 
-BIN=$(docker volume create) &&
-  SBIN=$(docker volume create) &&
-  SUDO=$(docker volume create) &&
+mkdir ~/bin &&
   volume(){
     VOLUME=$(docker volume create) &&
       docker \
@@ -18,111 +16,18 @@ BIN=$(docker volume create) &&
   } &&
   DOT_PASSWORD_STORE=$(volume) &&
   DOT_GNUPG=$(volume) &&
-  echo \
-  '!#/bin/sh\n\nsudo /usr/local/sbin/pass.sh ${@}' | docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${BIN}:/usr/local/bin \
-    --workdir /usr/local/bin \
-    emorymerryman/base:0.1.1 \
-    tee pass &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${BIN}:/usr/local/bin \
-    --workdir /usr/local/bin \
-    emorymerryman/base:0.1.1 \
-    chmod 0555 pass &&
-  echo \
-  'echo user ALL = NOPASSWD:SETENV: /usr/local/sbin/pass.sh > /etc/sudoers.d/git ' | docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${SUDO}:/etc/sudoers.d \
-    --workdir /etc/sudoers.d \
-    emorymerryman/base:0.1.1 \
-    tee pass &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${SUDO}:/etc/sudoers.d \
-    --workdir /etc/sudoers.d \
-    emorymerryman/base:0.1.1 \
-    chmod 0444 pass &&
   sed \
     -e "s#\${DOT_PASSWORD_STORE}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-    /vagrant/injections/sbin/pass.sh | docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${SBIN}:/usr/local/sbin \
-    --workdir /usr/local/sbin \
-    emorymerryman/base:0.1.1 \
-    tee pass &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${SBIN}:/usr/local/sbin \
-    --workdir /usr/local/sbin \
-    emorymerryman/base:0.1.1 \
-    chmod 0500 pass &&
-  pass(){
-    docker \
-      run \
-      --interactive \
-      --rm \
-      --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-      --volume ${BIN}:/usr/local/bin:ro \
-      --volume ${SBIN}:/usr/local/sbin:ro \
-      --volume ${SUDO}:/etc/sudoers.d:ro \
-      --user user \
-      emorymerryman/base:0.1.1 \
-      pass \
-      ${@} &&
-      true
-  } &&
-  true
+    -e "w~/bin/pass" \
+    /vagrant/injections/sbin/pass.sh &&
+  chmod 0500 ~/bin/pass &&
   sed \
     -e "s#\${WORK}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-    /vagrant/injections/sbin/gpg.sh | docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${SBIN}:/usr/local/sbin \
-    --workdir /usr/local/sbin \
-    emorymerryman/base:0.1.1 \
-    tee gpg &&
-  docker \
-    run \
-    --interactive \
-    --rm \
-    --volume ${SBIN}:/usr/local/sbin \
-    --workdir /usr/local/sbin \
-    emorymerryman/base:0.1.1 \
-    chmod 0500 gpg &&
-  gpg(){
-    export DOT_GNUPG=${DOT_GNUPG} &&
-      export WORK=/vagrant &&
-      docker \
-        run \
-        --interactive \
-        --rm \
-        --env GPG_OPTS="--pinentry-mode loopback" \
-        --volume ${WORK}:/usr/local/src \
-        --volume ${DOT_GNUPG}:/home/user/.gnupg \
-        --workdir /usr/local/src \
-        --user user \
-        emorymerryman/gpg:0.1.0 \
-        ${@} &&
-        true
-      true
-  } &&
+    -e "w~/bin/gpg" \
+    /vagrant/injections/sbin/gpg.sh &&
+    chmod 0500 ~/bin/gpg &&
   gpg --import private.gpg.key &&
   gpg --import public.gpg.key &&
   gpg --import-ownertrust ownertrust.gpg.key &&
