@@ -28,10 +28,11 @@ mkdir ${HOME}/bin &&
     -e "w${HOME}/bin/gpg" \
     /vagrant/injections/sbin/gpg.sh &&
     chmod 0500 ${HOME}/bin/gpg &&
-  gpg --import private.gpg.key &&
-  gpg --import public.gpg.key &&
-  gpg --import-ownertrust ownertrust.gpg.key &&
-  gpg --list-keys &&
+  cat ${HOME}/bin/gpg &&
+  gpg --import /vagrant/private.gpg.key &&
+  gpg --import /vagrant/public.gpg.key &&
+  gpg --import-ownertrust /vagrant/ownertrust.gpg.key &&
+  ( gpg --list-keys || echo WTF ) &&
   pass init D65D3F8C &&
   echo "GOT CHA" &&
   pass git init &&
