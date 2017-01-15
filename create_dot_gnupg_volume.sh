@@ -86,7 +86,11 @@ SBIN=$(docker volume create) &&
   gpg --import private.gpg.key &&
   gpg --import public.gpg.key &&
   gpg --import-ownertrust ownertrust.gpg.key &&
-  echo BEFORE LISTING KEYS &&
   gpg --list-keys &&
-  echo AFTER LISTING KEYS &&
+  pass init D65D3F8C &&
+  pass git init &&
+  pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
+  pass git fetch origin master &&
+  pass git checkout origin/master &&
+  pass show &&
   true
