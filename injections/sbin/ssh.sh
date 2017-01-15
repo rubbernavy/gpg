@@ -7,7 +7,6 @@ docker \
   --volume ${WORK}:/home/user/src \
   --volume ${DOT_SSH}:/root/.ssh:ro \
   --workdir /home/user/src \
-  --env PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
   --user user \
   emorymerryman/ssh:0.0.1 \
   ${@} &&

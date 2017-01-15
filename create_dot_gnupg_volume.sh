@@ -87,7 +87,34 @@ SBIN=$(docker volume create) &&
   gpg --import public.gpg.key &&
   gpg --import-ownertrust ownertrust.gpg.key &&
   gpg --list-keys &&
+  (
+    echo BEGIN &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+        --volume ${SBIN}:/usr/local/sbin:ro \
+        emorymerryman/base:0.1.1 \
+        cat /usr/local/sbin/pass &&
+      (
+        export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
+          export DOT_GNUPG=$(DOT_GNUPG) &&
+          docker \
+            run \
+            --interactive \
+            --rm \
+            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+            --volume ${SBIN}:/usr/local/sbin:ro \
+            emorymerryman/base:0.1.1 \
+            cat /usr/local/sbin/pass &&
+          true
+      ) &&
+      echo END &&
+      true
+  ) &&
   pass init D65D3F8C &&
+  echo "GOT CHA" &&
   pass git init &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
