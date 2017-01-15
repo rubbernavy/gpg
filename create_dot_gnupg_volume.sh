@@ -113,7 +113,7 @@ SBIN=$(docker volume create) &&
             --env DOT_GNUPG \
             --user user \
             --entrypoint cat \
-            emorymerryman/pass:0.7.2 \
+            emorymerryman/pass:0.7.3 \
             /usr/local/bin/gpg &&
           true
       ) &&
@@ -130,7 +130,7 @@ SBIN=$(docker volume create) &&
             --env DOT_GNUPG \
             --user user \
             --entrypoint cat \
-            emorymerryman/pass:0.7.2 \
+            emorymerryman/pass:0.7.3 \
             /usr/local/sbin/gpg.sh &&
           true
       ) &&
@@ -147,7 +147,7 @@ SBIN=$(docker volume create) &&
             --env DOT_GNUPG \
             --user user \
             --entrypoint env \
-            emorymerryman/pass:0.7.2 &&
+            emorymerryman/pass:0.7.3 &&
           true
       ) &&
       echo END &&
