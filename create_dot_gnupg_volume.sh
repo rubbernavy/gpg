@@ -129,9 +129,9 @@ SBIN=$(docker volume create) &&
             --env DOT_PASSWORD_STORE \
             --env DOT_GNUPG \
             --user user \
-            --entrypoint ls \
+            --entrypoint cat \
             emorymerryman/pass:0.7.1 \
-            /usr/local/sbin &&
+            /usr/local/sbin/gpg.sh &&
           true
       ) &&
       echo END &&
