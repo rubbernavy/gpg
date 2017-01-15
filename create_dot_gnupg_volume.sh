@@ -77,6 +77,7 @@ SBIN=$(docker volume create) &&
         --volume ${WORK}:/usr/local/src \
         --volume ${DOT_GNUPG}:/home/user/.gnupg \
         --workdir /usr/local/src \
+        --user user \
         emorymerryman/gpg:0.1.0 \
         ${@} &&
         true
@@ -85,5 +86,7 @@ SBIN=$(docker volume create) &&
   gpg --import private.gpg.key &&
   gpg --import public.gpg.key &&
   gpg --import-ownertrust ownertrust.gpg.key &&
+  echo BEFORE LISTING KEYS &&
   gpg --list-keys &&
+  echo AFTER LISTING KEYS &&
   true
