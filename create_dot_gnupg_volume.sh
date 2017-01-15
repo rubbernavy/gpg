@@ -89,14 +89,33 @@ SBIN=$(docker volume create) &&
   gpg --list-keys &&
   (
     echo BEGIN &&
-      docker \
-        run \
-        --interactive \
-        --rm \
-        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-        --volume ${SBIN}:/usr/local/sbin:ro \
-        emorymerryman/base:0.1.1 \
-        cat /usr/local/sbin/pass &&
+      (
+        docker \
+          run \
+          --interactive \
+          --rm \
+          --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+          --volume ${SBIN}:/usr/local/sbin:ro \
+          emorymerryman/base:0.1.1 \
+          cat /usr/local/sbin/pass &&
+          true
+      ) &&
+      (
+        export DOT_PASSWORD_STORE &&
+          export DOT_GNUPG &&
+          docker \
+            run \
+            --interactive \
+            --rm \
+            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+            --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+            --env DOT_PASSWORD_STORE \
+            --env DOT_GNUPG \
+            --user user \
+            --entrypoint ls /usr/local/bin \
+            emorymerryman/pass:0.7.1 &&
+          true
+      ) &&
       echo END &&
       true
   ) &&
