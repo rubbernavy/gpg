@@ -112,9 +112,26 @@ SBIN=$(docker volume create) &&
             --env DOT_PASSWORD_STORE \
             --env DOT_GNUPG \
             --user user \
+            --entrypoint cat \
+            emorymerryman/pass:0.7.1 \
+            /usr/local/bin/gpg &&
+          true
+      ) &&
+      (
+        export DOT_PASSWORD_STORE &&
+          export DOT_GNUPG &&
+          docker \
+            run \
+            --interactive \
+            --rm \
+            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+            --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+            --env DOT_PASSWORD_STORE \
+            --env DOT_GNUPG \
+            --user user \
             --entrypoint ls \
             emorymerryman/pass:0.7.1 \
-            /usr/local/bin &&
+            /usr/local/sbin &&
           true
       ) &&
       echo END &&
