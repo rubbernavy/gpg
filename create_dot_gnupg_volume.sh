@@ -56,17 +56,7 @@ SBIN=$(docker volume create) &&
   gpg(){
     export DOT_GNUPG=${DOT_GNUPG} &&
       export WORK=/vagrant &&
-      docker \
-        run \
-        --interactive \
-        --rm \
-        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-        --volume ${SBIN}:/usr/local/sbin:ro \
-        --env WORK \
-        --env DOT_GNUPG \
-        emorymerryman/base:0.1.1 \
-        gpg \
-        ${@} &&
+      /usr/bin/sh /vagrant/injections/sbin/gpg.sh ${@} &&
       true
   } &&
   gpg --import private.gpg.key &&
