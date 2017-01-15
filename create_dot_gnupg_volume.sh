@@ -97,19 +97,6 @@ SBIN=$(docker volume create) &&
         --volume ${SBIN}:/usr/local/sbin:ro \
         emorymerryman/base:0.1.1 \
         cat /usr/local/sbin/pass &&
-      (
-        export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
-          export DOT_GNUPG=$(DOT_GNUPG) &&
-          docker \
-            run \
-            --interactive \
-            --rm \
-            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-            --volume ${SBIN}:/usr/local/sbin:ro \
-            emorymerryman/base:0.1.1 \
-            cat /usr/local/sbin/pass &&
-          true
-      ) &&
       echo END &&
       true
   ) &&
