@@ -112,8 +112,9 @@ SBIN=$(docker volume create) &&
             --env DOT_PASSWORD_STORE \
             --env DOT_GNUPG \
             --user user \
-            --entrypoint ls /usr/local/bin \
-            emorymerryman/pass:0.7.1 &&
+            --entrypoint ls \
+            emorymerryman/pass:0.7.1 \
+            /usr/local/bin &&
           true
       ) &&
       echo END &&
