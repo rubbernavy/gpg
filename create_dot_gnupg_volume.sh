@@ -113,7 +113,7 @@ SBIN=$(docker volume create) &&
             --env DOT_GNUPG \
             --user user \
             --entrypoint cat \
-            emorymerryman/pass:0.7.5 \
+            emorymerryman/pass:0.7.6 \
             /usr/local/bin/gpg &&
           true
       ) &&
@@ -130,7 +130,7 @@ SBIN=$(docker volume create) &&
             --env DOT_GNUPG \
             --user user \
             --entrypoint cat \
-            emorymerryman/pass:0.7.5 \
+            emorymerryman/pass:0.7.6 \
             /usr/local/sbin/gpg.sh &&
           true
       ) &&
@@ -147,14 +147,60 @@ SBIN=$(docker volume create) &&
             --env DOT_GNUPG \
             --user user \
             --entrypoint env \
-            emorymerryman/pass:0.7.5 &&
+            emorymerryman/pass:0.7.6 &&
           true
       ) &&
       echo END &&
       true
   ) &&
+  (
+    export DOT_PASSWORD_STORE &&
+      export DOT_GNUPG &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+        --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+        --env DOT_PASSWORD_STORE \
+        --env DOT_GNUPG \
+        --user user \
+        --entrypoint stat \
+        emorymerryman/pass:0.7.6 \
+        /home/user/.password-store &&
+      true
+  ) &&
   pass init D65D3F8C &&
   echo "GOT CHA" &&
+  (
+    (
+      export DOT_PASSWORD_STORE &&
+        export DOT_GNUPG &&
+        docker \
+          run \
+          --interactive \
+          --rm \
+          --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+          --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+          --env DOT_PASSWORD_STORE \
+          --env DOT_GNUPG \
+          --entrypoint cat \
+          emorymerryman/pass:0.7.6 \
+          /usr/local/sbin/git.sh &&
+          docker \
+            run \
+            --interactive \
+            --rm \
+            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+            --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+            --env DOT_PASSWORD_STORE \
+            --env DOT_GNUPG \
+            --entrypoint env \
+            emorymerryman/pass:0.7.6 &&
+            true
+    ) &&
+    true
+  ) &&
   pass git init &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&

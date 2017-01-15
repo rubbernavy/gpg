@@ -11,6 +11,6 @@ export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
     --env DOT_PASSWORD_STORE \
     --env DOT_GNUPG \
     --user user \
-    emorymerryman/pass:0.7.5 \
+    emorymerryman/pass:0.7.6 \
     ${@} &&
   true
