@@ -54,20 +54,23 @@ SBIN=$(docker volume create) &&
     emorymerryman/base:0.1.1 \
     chmod 0500 gpg &&
   gpg(){
-    docker \
-      run \
-      --interactive \
-      --rm \
-      --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-      --volume ${SBIN}:/usr/local/sbin:ro \
-      --volume /vagrant:/vagrant:ro \
-      emorymerryman/base:0.1.1 \
-      gpg \
-      ${@} &&
+    export DOT_GNUPG=${DOT_GNUPG} &&
+      export WORK=/vagrant &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+        --volume ${SBIN}:/usr/local/sbin:ro \
+        --env WORK \
+        --env DOT_GNUPG \
+        emorymerryman/base:0.1.1 \
+        gpg \
+        ${@} &&
       true
   } &&
-  gpg --import /vagrant/private.gpg.key &&
-  gpg --import /vagrant/public.gpg.key &&
-  gpg --import-ownertrust /vagrant/ownertrust.gpg.key &&
+  gpg --import private.gpg.key &&
+  gpg --import public.gpg.key &&
+  gpg --import-ownertrust ownertrust.gpg.key &&
   gpg --list-keys &&
   true
