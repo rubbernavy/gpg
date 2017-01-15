@@ -1,6 +1,8 @@
 #!/bin/sh
 
-SBIN=$(docker volume create) &&
+BIN=$(docker volume create) &&
+  SBIN=$(docker volume create) &&
+  SUDO=$(docker volume create) &&
   volume(){
     VOLUME=$(docker volume create) &&
       docker \
@@ -16,6 +18,40 @@ SBIN=$(docker volume create) &&
   } &&
   DOT_PASSWORD_STORE=$(volume) &&
   DOT_GNUPG=$(volume) &&
+  echo \
+  '!#/bin/sh\n\nsudo /usr/local/sbin/pass.sh ${@}' | docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${BIN}:/usr/local/bin \
+    --workdir /usr/local/bin \
+    emorymerryman/base:0.1.1 \
+    tee pass &&
+  docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${BIN}:/usr/local/bin \
+    --workdir /usr/local/bin \
+    emorymerryman/base:0.1.1 \
+    chmod 0555 pass &&
+  echo \
+  'echo user ALL = NOPASSWD:SETENV: /usr/local/sbin/pass.sh > /etc/sudoers.d/git ' | docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${SUDO}:/etc/sudoers.d \
+    --workdir /etc/sudoers.d \
+    emorymerryman/base:0.1.1 \
+    tee pass &&
+  docker \
+    run \
+    --interactive \
+    --rm \
+    --volume ${SUDO}:/etc/sudoers.d \
+    --workdir /etc/sudoers.d \
+    emorymerryman/base:0.1.1 \
+    chmod 0444 pass &&
   sed \
     -e "s#\${DOT_PASSWORD_STORE}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
@@ -41,12 +77,16 @@ SBIN=$(docker volume create) &&
       --interactive \
       --rm \
       --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+      --volume ${BIN}:/usr/local/bin:ro \
       --volume ${SBIN}:/usr/local/sbin:ro \
+      --volume ${SUDO}:/etc/sudoers.d:ro \
+      --user user \
       emorymerryman/base:0.1.1 \
       pass \
       ${@} &&
       true
   } &&
+  true
   sed \
     -e "s#\${WORK}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
@@ -87,120 +127,8 @@ SBIN=$(docker volume create) &&
   gpg --import public.gpg.key &&
   gpg --import-ownertrust ownertrust.gpg.key &&
   gpg --list-keys &&
-  (
-    echo BEGIN &&
-      (
-        docker \
-          run \
-          --interactive \
-          --rm \
-          --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-          --volume ${SBIN}:/usr/local/sbin:ro \
-          emorymerryman/base:0.1.1 \
-          cat /usr/local/sbin/pass &&
-          true
-      ) &&
-      (
-        export DOT_PASSWORD_STORE &&
-          export DOT_GNUPG &&
-          docker \
-            run \
-            --interactive \
-            --rm \
-            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-            --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-            --env DOT_PASSWORD_STORE \
-            --env DOT_GNUPG \
-            --user user \
-            --entrypoint cat \
-            emorymerryman/pass:0.7.6 \
-            /usr/local/bin/gpg &&
-          true
-      ) &&
-      (
-        export DOT_PASSWORD_STORE &&
-          export DOT_GNUPG &&
-          docker \
-            run \
-            --interactive \
-            --rm \
-            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-            --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-            --env DOT_PASSWORD_STORE \
-            --env DOT_GNUPG \
-            --user user \
-            --entrypoint cat \
-            emorymerryman/pass:0.7.6 \
-            /usr/local/sbin/gpg.sh &&
-          true
-      ) &&
-      (
-        export DOT_PASSWORD_STORE &&
-          export DOT_GNUPG &&
-          docker \
-            run \
-            --interactive \
-            --rm \
-            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-            --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-            --env DOT_PASSWORD_STORE \
-            --env DOT_GNUPG \
-            --user user \
-            --entrypoint env \
-            emorymerryman/pass:0.7.6 &&
-          true
-      ) &&
-      echo END &&
-      true
-  ) &&
-  (
-    export DOT_PASSWORD_STORE &&
-      export DOT_GNUPG &&
-      docker \
-        run \
-        --interactive \
-        --rm \
-        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-        --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-        --env DOT_PASSWORD_STORE \
-        --env DOT_GNUPG \
-        --user user \
-        --entrypoint stat \
-        emorymerryman/pass:0.7.6 \
-        /home/user/.password-store &&
-      true
-  ) &&
   pass init D65D3F8C &&
   echo "GOT CHA" &&
-  (
-    (
-      export DOT_PASSWORD_STORE &&
-        export DOT_GNUPG &&
-        docker \
-          run \
-          --interactive \
-          --rm \
-          --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-          --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-          --env DOT_PASSWORD_STORE \
-          --env DOT_GNUPG \
-          --entrypoint cat \
-          emorymerryman/pass:0.7.6 \
-          /usr/local/sbin/git.sh &&
-          docker \
-            run \
-            --interactive \
-            --rm \
-            --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-            --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-            --env DOT_PASSWORD_STORE \
-            --env DOT_GNUPG \
-            --entrypoint env \
-            emorymerryman/pass:0.7.6 &&
-            true
-    ) &&
-    true
-  ) &&
   pass git init &&
   pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
