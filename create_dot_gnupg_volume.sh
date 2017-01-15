@@ -1,8 +1,21 @@
 #!/bin/sh
 
 SBIN=$(docker volume create) &&
-  DOT_PASSWORD_STORE=$(docker volume create) &&
-  DOT_GNUPG=$(docker volume create) &&
+  volume(){
+    VOLUME=$(docker volume create) &&
+      docker \
+        run \
+          --interactive \
+          --rm \
+          --volume ${VOLUME}:/usr/local/src \
+          emorymerryman/base:0.1.1 \
+          chown user:user /usr/local/src &&
+          true
+      echo ${VOLUME} &&
+      true
+  } &&
+  DOT_PASSWORD_STORE=$(volume) &&
+  DOT_GNUPG=$(volume) &&
   sed \
     -e "s#\${DOT_PASSWORD_STORE}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
@@ -56,7 +69,17 @@ SBIN=$(docker volume create) &&
   gpg(){
     export DOT_GNUPG=${DOT_GNUPG} &&
       export WORK=/vagrant &&
-      /usr/bin/sh /vagrant/injections/sbin/gpg.sh ${@} &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --env GPG_OPTS="--pinentry-mode loopback" \
+        --volume ${WORK}:/usr/local/src \
+        --volume ${DOT_GNUPG}:/home/user/.gnupg \
+        --workdir /usr/local/src \
+        emorymerryman/gpg:0.1.0 \
+        ${@} &&
+        true
       true
   } &&
   gpg --import private.gpg.key &&
