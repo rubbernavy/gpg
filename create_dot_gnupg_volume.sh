@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mkdir ~/bin &&
+mkdir ${HOME}/bin &&
   volume(){
     VOLUME=$(docker volume create) &&
       docker \
@@ -19,15 +19,15 @@ mkdir ~/bin &&
   sed \
     -e "s#\${DOT_PASSWORD_STORE}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-    -e "w~/bin/pass" \
+    -e "w${HOME}/bin/pass" \
     /vagrant/injections/sbin/pass.sh &&
-  chmod 0500 ~/bin/pass &&
+  chmod 0500 ${HOME}/bin/pass &&
   sed \
     -e "s#\${WORK}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-    -e "w~/bin/gpg" \
+    -e "w${HOME}/bin/gpg" \
     /vagrant/injections/sbin/gpg.sh &&
-    chmod 0500 ~/bin/gpg &&
+    chmod 0500 ${HOME}/bin/gpg &&
   gpg --import private.gpg.key &&
   gpg --import public.gpg.key &&
   gpg --import-ownertrust ownertrust.gpg.key &&
