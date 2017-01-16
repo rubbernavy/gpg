@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mkdir ${HOME}/bin &&
+mkdir /usr/local/bin/bin &&
   DOT_PASSWORD_STORE=$(docker volume create) &&
   DOT_GNUPG=$(docker volume create) &&
   DOT_SSH=$(docker volume create) &&
@@ -8,9 +8,9 @@ mkdir ${HOME}/bin &&
     -e "s#\${DOT_PASSWORD_STORE}#${DOT_PASSWORD_STORE}#" \
     -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
     -e "s#\${DOT_SSH}#${DOT_SSH}#" \
-    -e "w${HOME}/bin/pass" \
+    -e "w/usr/local/bin/bin/pass" \
     /vagrant/pass.sh &&
-  chmod 0500 ${HOME}/bin/pass &&
+  chmod 0555 /usr/local/bin/bin/pass &&
   gpg(){
     export DOT_GNUPG=${DOT_GNUPG} &&
       docker \
