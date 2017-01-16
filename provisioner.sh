@@ -1,7 +1,7 @@
 #!/bin/sh
 
 dnf update --assumeyes &&
-  dnf install --assumeyes git &&
+  dnf install --assumeyes git xclip pwgen &&
   WORK_DIR=$(mktemp -d) &&
   git -C ${WORK_DIR} init &&
   git -C ${WORK_DIR} remote add origin https://github.com/furiousfox/password-store.git &&
