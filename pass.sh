@@ -6,10 +6,9 @@ export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
     run \
     --interactive \
     --rm \
-    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-    --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
-    --env DOT_PASSWORD_STORE \
-    --env DOT_GNUPG \
+    --volume ${DOT_PASSWORD_STORE}:/root/.password-store \
+    --volume ${DOT_GNUPG}:/root/.gnupg \
+    --volume ${DOT_SSH}:/root/.ssh \
     --user user \
     emorymerryman/pass:0.7.8 \
     ${@} &&
