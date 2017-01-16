@@ -5,6 +5,8 @@ ssh-keygen -f ${HOME}/.ssh/id_rsa -P "" &&
   -H "Authorization: token $(cat /vagrant/github.oauth.token)" \
   --request POST \
   --data "{\"title\": \"Vagrant $(uuidgen)\", \"key\": \"$(cat ${HOME}/.ssh/id_rsa.pub)\"}" \
+  cat /vagrant/config > ${HOME}/.ssh/config &&
+  chmod 0600 ${HOME}/.ssh/config &&
   https://api.github.com/user/keys &&
   gpg --import /vagrant/private.gpg.key &&
   gpg --import /vagrant/public.gpg.key &&
@@ -12,8 +14,10 @@ ssh-keygen -f ${HOME}/.ssh/id_rsa -P "" &&
   ( gpg --list-keys || echo WTF ) &&
   pass init D65D3F8C &&
   pass git init &&
-  pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
+  pass git remote add origin git@github.com:desertedscorpion/passwordstore.git &&
   pass git fetch origin master &&
-  pass git checkout origin/master &&
+  pass git checkout master &&
+  cat /vagrant/post-commit.sh > ${HOME}/.password-store/.git/hooks/post-commit &&
+  chmod 0500 ${HOME}/.password-store/.git/hooks/post-commit &&
   pass show &&
   true
