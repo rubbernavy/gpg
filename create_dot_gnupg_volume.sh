@@ -17,12 +17,13 @@ mkdir ${HOME}/bin &&
         run \
         --interactive \
         --rm \
-        --env GPG_OPTS="--pinentry-mode loopback" \
         --volume ${DOT_GNUPG}:/root/.gnupg \
         --volume /vagrant:/usr/local/src:ro \
         --entrypoint /usr/bin/gpg \
         --workdir /usr/local/src \
         emorymerryman/pass:0.8.3 \
+        --no-tty \
+        --batch \
         ${@} &&
         true
   } &&
