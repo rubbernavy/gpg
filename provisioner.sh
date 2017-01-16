@@ -8,6 +8,6 @@ dnf update --assumeyes &&
   git -C ${WORK_DIR} fetch origin &&
   git -C ${WORK_DIR} checkout tags/1.6.5 &&
   make --directory ${WORK_DIR} install &&
-  su --login vagrant --command /vagrant/vagrant.sh &&
+  su --login vagrant --command "/usr/bin/sh /vagrant/vagrant.sh" &&
   dnf update --assumeyes &&
   true
