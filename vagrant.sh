@@ -3,7 +3,8 @@
 ssh-keygen -f ${HOME}/.ssh/id_rsa -P "" &&
   curl \
   -H "Authorization: token $(cat /vagrant/github.oauth.token)" \
-  --request POST --data "{title: \"Vagrant $(uuidgen)\", key: \"$(cat ${HOME}/.ssh/id_rsa.pub)\"}" \
+  --request POST \
+  --data "{\"title\": \"Vagrant $(uuidgen)\", \"key\": \"$(cat ${HOME}/.ssh/id_rsa.pub)\"}" \
   https://api.github.com/user/keys &&
   gpg --import /vagrant/private.gpg.key &&
   gpg --import /vagrant/public.gpg.key &&
