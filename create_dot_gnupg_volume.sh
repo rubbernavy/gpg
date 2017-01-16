@@ -28,14 +28,28 @@ mkdir ${HOME}/bin &&
     -e "w${HOME}/bin/gpg" \
     /vagrant/injections/sbin/gpg.sh &&
     chmod 0500 ${HOME}/bin/gpg &&
-  cat ${HOME}/bin/gpg &&
   gpg --import /vagrant/private.gpg.key &&
   gpg --import /vagrant/public.gpg.key &&
   gpg --import-ownertrust /vagrant/ownertrust.gpg.key &&
   ( gpg --list-keys || echo WTF ) &&
-  cat ${HOME}/bin/pass &&
   pass init D65D3F8C &&
-  echo "GOT CHA" &&
+  (
+    export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
+      export DOT_GNUPG=${DOT_GNUPG} &&
+      docker \
+        run \
+        --interactive \
+        --rm \
+        --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+        --volume ${DOT_PASSWORD_STORE}:/home/user/.password-store \
+        --env DOT_PASSWORD_STORE \
+        --env DOT_GNUPG \
+        --entrypoint cat \
+        emorymerryman/pass:0.7.7 \
+        /usr/local/sbin/git &&
+        true
+  ) &&
+  echo BETA &&
   pass git init &&
   comment(){
     pass git init &&
