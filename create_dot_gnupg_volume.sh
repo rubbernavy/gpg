@@ -46,7 +46,7 @@ mkdir ${HOME}/bin &&
         --env DOT_GNUPG \
         --entrypoint cat \
         emorymerryman/pass:0.7.7 \
-        /usr/local/sbin/git &&
+        /usr/local/sbin/git.sh &&
         true
   ) &&
   echo BETA &&
