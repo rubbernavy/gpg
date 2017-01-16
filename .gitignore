@@ -1,4 +1,5 @@
 .vagrant
+github.oauth.token
 ownertrust.gpg2.key
 ownertrust.gpg.key
 public.gpg.key
