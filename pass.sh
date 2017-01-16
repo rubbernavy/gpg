@@ -10,6 +10,6 @@ export DOT_PASSWORD_STORE=${DOT_PASSWORD_STORE} &&
     --volume ${DOT_GNUPG}:/root/.gnupg \
     --volume ${DOT_SSH}:/root/.ssh \
     --user user \
-    emorymerryman/pass:0.7.8 \
+    emorymerryman/pass:0.8.3 \
     ${@} &&
   true

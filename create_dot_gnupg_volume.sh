@@ -21,13 +21,13 @@ mkdir ${HOME}/bin &&
         --volume /vagrant:/usr/local/src:ro \
         --entrypoint /usr/bin/gpg \
         --workdir /usr/local/src \
-        emorymerryman/pass:0.8.1 \
+        emorymerryman/pass:0.8.3 \
         ${@} &&
         true
   } &&
-  gpg --import /vagrant/private.gpg.key &&
-  gpg --import /vagrant/public.gpg.key &&
-  gpg --import-ownertrust /vagrant/ownertrust.gpg.key &&
+  gpg --import private.gpg.key &&
+  gpg --import public.gpg.key &&
+  gpg --import-ownertrust ownertrust.gpg.key &&
   ( gpg --list-keys || echo WTF ) &&
   pass init D65D3F8C &&
   pass git init &&
