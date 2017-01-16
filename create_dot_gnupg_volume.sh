@@ -25,12 +25,6 @@ mkdir ${HOME}/bin &&
         ${@} &&
         true
   } &&
-  sed \
-    -e "s#\${WORK}#${DOT_PASSWORD_STORE}#" \
-    -e "s#\${DOT_GNUPG}#${DOT_GNUPG}#" \
-    -e "w${HOME}/bin/gpg" \
-    /vagrant/injections/sbin/gpg.sh &&
-    chmod 0500 ${HOME}/bin/gpg &&
   gpg --import /vagrant/private.gpg.key &&
   gpg --import /vagrant/public.gpg.key &&
   gpg --import-ownertrust /vagrant/ownertrust.gpg.key &&
