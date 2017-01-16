@@ -33,11 +33,17 @@ mkdir ${HOME}/bin &&
   gpg --import /vagrant/public.gpg.key &&
   gpg --import-ownertrust /vagrant/ownertrust.gpg.key &&
   ( gpg --list-keys || echo WTF ) &&
+  cat ${HOME}/bin/pass &&
   pass init D65D3F8C &&
   echo "GOT CHA" &&
   pass git init &&
-  pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
-  pass git fetch origin master &&
-  pass git checkout origin/master &&
-  pass show &&
+  comment(){
+    pass git init &&
+    echo "BETA" &&
+    pass git remote add origin https://github.com/desertedscorpion/passwordstore.git &&
+    pass git fetch origin master &&
+    pass git checkout origin/master &&
+    pass show &&
+    true
+  } &&
   true
